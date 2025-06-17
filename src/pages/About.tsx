@@ -1,176 +1,163 @@
 
 import Layout from '@/components/Layout';
-import { Card, CardContent } from '@/components/ui/card';
-import { Shield, Users, Clock, Award, MapPin, CheckCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Users, Shield, Clock, Star, MapPin, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import SEOHead from '@/components/SEOHead';
 
 export default function About() {
-  const features = [
+  const { language, t } = useLanguage();
+
+  const seoData = {
+    title: t('about.page.title'),
+    description: t('about.page.description'),
+    keywords: [t('about.title'), 'LocalServices', language === 'ar' ? 'خدمات محلية' : 'local services', language === 'ar' ? 'الشرق الأوسط' : 'Middle East'],
+    canonical: '/about',
+    schemaMarkup: {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": t('about.page.title'),
+      "description": t('about.page.description')
+    }
+  };
+
+  const stats = [
+    { icon: Users, value: '50,000+', label: t('about.stats.happyCustomers') },
+    { icon: Shield, value: '2,500+', label: t('about.stats.verifiedProfessionals') },
+    { icon: MapPin, value: '25+', label: t('about.stats.citiesCovered') },
+    { icon: Star, value: '4.8', label: t('about.stats.averageRating') }
+  ];
+
+  const values = [
     {
       icon: Shield,
-      title: 'Verified Professionals',
-      description: 'All service providers are thoroughly vetted and background-checked'
+      title: t('about.values.trusted.title'),
+      description: t('about.values.trusted.description')
+    },
+    {
+      icon: CheckCircle,
+      title: t('about.values.transparent.title'),
+      description: t('about.values.transparent.description')
     },
     {
       icon: Clock,
-      title: '24/7 Availability',
-      description: 'Round-the-clock service across all major cities in the Middle East'
-    },
-    {
-      icon: Users,
-      title: 'Expert Team',
-      description: 'Over 5,000 certified professionals ready to serve your needs'
-    },
-    {
-      icon: Award,
-      title: 'Quality Guaranteed',
-      description: '100% satisfaction guarantee with comprehensive service warranty'
+      title: t('about.values.support.title'),
+      description: t('about.values.support.description')
     }
   ];
 
-  const stats = [
-    { number: '50,000+', label: 'Happy Customers' },
-    { number: '5,000+', label: 'Verified Professionals' },
-    { number: '100+', label: 'Cities Covered' },
-    { number: '4.9/5', label: 'Average Rating' }
-  ];
-
-  const coverage = [
-    'Saudi Arabia - Riyadh, Jeddah, Dammam, Mecca, Medina',
-    'UAE - Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah',
-    'Kuwait - Kuwait City, Hawalli, Ahmadi, Jahra',
-    'Egypt - Cairo, Alexandria, Giza, Luxor, Aswan'
+  const countries = [
+    { name: language === 'ar' ? 'السعودية' : 'Saudi Arabia', cities: language === 'ar' ? 'الرياض، جدة، الدمام، مكة' : 'Riyadh, Jeddah, Dammam, Mecca' },
+    { name: language === 'ar' ? 'الإمارات' : 'United Arab Emirates', cities: language === 'ar' ? 'دبي، أبوظبي، الشارقة' : 'Dubai, Abu Dhabi, Sharjah' },
+    { name: language === 'ar' ? 'الكويت' : 'Kuwait', cities: language === 'ar' ? 'مدينة الكويت، الأحمدي' : 'Kuwait City, Al Ahmadi' },
+    { name: language === 'ar' ? 'مصر' : 'Egypt', cities: language === 'ar' ? 'القاهرة، الإسكندرية، الجيزة' : 'Cairo, Alexandria, Giza' }
   ];
 
   return (
     <Layout>
-      <div className="min-h-screen py-12 sm:py-16 md:py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          {/* Hero Section */}
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
-              About LocalServices
+      <SEOHead seoData={seoData} language={language} />
+      
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <section className="py-20 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              {t('about.page.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed px-2">
-              We are the Middle East's leading platform connecting customers with 
-              trusted local service professionals. Since 2020, we've been making 
-              home and business services accessible, reliable, and affordable.
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+              {t('about.page.description')}
             </p>
           </div>
+        </section>
 
-          {/* Mission Statement */}
-          <Card className="mb-8 sm:mb-12 md:mb-16 bg-white/10 backdrop-blur-sm border-white/20">
-            <CardContent className="p-6 sm:p-8 md:p-12 text-center">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
-                Our Mission
-              </h2>
-              <p className="text-base sm:text-lg md:text-xl text-blue-100 leading-relaxed">
-                To transform how people access local services by creating a trusted, 
-                efficient, and transparent marketplace that benefits both customers and 
-                service professionals across the Middle East region.
-              </p>
-            </CardContent>
-          </Card>
+        {/* Stats Section */}
+        <section className="py-16 bg-white/5 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <stat.icon className="w-12 h-12 text-blue-300" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
+                  <div className="text-blue-200">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 md:mb-16">
-            {stats.map((stat, index) => (
-              <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-300 mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-xs sm:text-sm md:text-base text-blue-100">
-                    {stat.label}
-                  </div>
+        {/* Mission Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+                <CardHeader>
+                  <CardTitle className="text-3xl text-white text-center">
+                    {t('about.mission.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg text-blue-100 text-center leading-relaxed">
+                    {t('about.mission.text')}
+                  </p>
                 </CardContent>
               </Card>
-            ))}
+            </div>
           </div>
+        </section>
 
-          {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 md:mb-16">
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
-                  <CardContent className="p-4 sm:p-6 text-center">
-                    <IconComponent className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-blue-300 mx-auto mb-3 sm:mb-4" />
-                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white mb-2 sm:mb-3">
-                      {feature.title}
+        {/* Values Section */}
+        <section className="py-16 bg-white/5 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white text-center mb-12">
+              {t('about.values.title')}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {values.map((value, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardContent className="p-6 text-center">
+                    <div className="flex justify-center mb-4">
+                      <value.icon className="w-12 h-12 text-blue-300" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      {value.title}
                     </h3>
-                    <p className="text-xs sm:text-sm md:text-base text-blue-100 leading-relaxed">
-                      {feature.description}
+                    <p className="text-blue-100 leading-relaxed">
+                      {value.description}
                     </p>
                   </CardContent>
                 </Card>
-              );
-            })}
+              ))}
+            </div>
           </div>
+        </section>
 
-          {/* Coverage Area */}
-          <Card className="mb-8 sm:mb-12 bg-white/10 backdrop-blur-sm border-white/20">
-            <CardContent className="p-6 sm:p-8">
-              <div className="flex items-center mb-4 sm:mb-6">
-                <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-blue-300 mr-3" />
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                  Service Coverage
-                </h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                {coverage.map((area, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                    <p className="text-sm sm:text-base text-blue-100 leading-relaxed">
-                      {area}
+        {/* Coverage Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white text-center mb-12">
+              {t('about.coverage.title')}
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {countries.map((country, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white text-center">
+                      {country.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-blue-200 text-center text-sm">
+                      {country.cities}
                     </p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Company Values */}
-          <Card className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 backdrop-blur-sm border-white/20">
-            <CardContent className="p-6 sm:p-8 md:p-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-6 sm:mb-8">
-                Why Choose Us?
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                <div className="text-center">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">
-                    Trusted Network
-                  </h3>
-                  <p className="text-sm sm:text-base text-blue-100 leading-relaxed">
-                    Every professional in our network undergoes rigorous screening 
-                    and verification processes to ensure quality service delivery.
-                  </p>
-                </div>
-                
-                <div className="text-center">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">
-                    Transparent Pricing
-                  </h3>
-                  <p className="text-sm sm:text-base text-blue-100 leading-relaxed">
-                    No hidden fees, no surprises. Get upfront pricing and 
-                    detailed quotes before any work begins.
-                  </p>
-                </div>
-                
-                <div className="text-center">
-                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">
-                    24/7 Support
-                  </h3>
-                  <p className="text-sm sm:text-base text-blue-100 leading-relaxed">
-                    Our customer support team is available around the clock 
-                    to assist with any questions or concerns.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
     </Layout>
   );

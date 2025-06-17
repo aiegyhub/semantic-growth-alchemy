@@ -1,156 +1,219 @@
 
 import Layout from '@/components/Layout';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Phone, MessageCircle, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, MessageCircle, Mail, MapPin, Clock, Headphones } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import SEOHead from '@/components/SEOHead';
 
 export default function Contact() {
-  const countries = [
+  const { language, t } = useLanguage();
+
+  const seoData = {
+    title: t('contact.page.title'),
+    description: t('contact.page.description'),
+    keywords: [t('contact.title'), 'LocalServices', language === 'ar' ? 'تواصل معنا' : 'contact us', language === 'ar' ? 'دعم العملاء' : 'customer support'],
+    canonical: '/contact',
+    schemaMarkup: {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": t('contact.page.title'),
+      "description": t('contact.page.description')
+    }
+  };
+
+  const contactMethods = [
     {
-      name: 'Saudi Arabia',
-      nameAr: 'المملكة العربية السعودية',
-      phone: '+966-XXX-XXXX',
-      whatsapp: '+966-XXX-XXXX',
-      email: 'sa@localservices.com'
+      icon: Phone,
+      title: t('contact.phoneSupport'),
+      description: t('contact.instantResponse'),
+      action: language === 'ar' ? 'اتصل الآن' : 'Call Now',
+      link: 'tel:+966111234567',
+      primary: true
     },
     {
-      name: 'UAE',
-      nameAr: 'الإمارات العربية المتحدة',
-      phone: '+971-XXX-XXXX',
-      whatsapp: '+971-XXX-XXXX',
-      email: 'ae@localservices.com'
+      icon: MessageCircle,
+      title: t('whatsapp'),
+      description: language === 'ar' ? 'دردشة سريعة ومباشرة' : 'Quick and direct chat',
+      action: language === 'ar' ? 'أرسل رسالة' : 'Send Message',
+      link: 'https://wa.me/966111234567',
+      primary: false
     },
     {
-      name: 'Kuwait',
-      nameAr: 'الكويت',
-      phone: '+965-XXX-XXXX',
-      whatsapp: '+965-XXX-XXXX',
-      email: 'kw@localservices.com'
+      icon: Mail,
+      title: language === 'ar' ? 'البريد الإلكتروني' : 'Email',
+      description: language === 'ar' ? 'للاستفسارات التفصيلية' : 'For detailed inquiries',
+      action: language === 'ar' ? 'أرسل إيميل' : 'Send Email',
+      link: 'mailto:info@localservices.com',
+      primary: false
+    }
+  ];
+
+  const supportFeatures = [
+    {
+      icon: Clock,
+      title: language === 'ar' ? 'دعم 24/7' : '24/7 Support',
+      description: language === 'ar' ? 'متاحون على مدار الساعة' : 'Available around the clock'
     },
     {
-      name: 'Egypt',
-      nameAr: 'مصر',
-      phone: '+20-XXX-XXXX',
-      whatsapp: '+20-XXX-XXXX',
-      email: 'eg@localservices.com'
+      icon: Headphones,
+      title: t('contact.professionalSupport'),
+      description: language === 'ar' ? 'فريق متخصص ومدرب' : 'Specialized and trained team'
+    },
+    {
+      icon: MapPin,
+      title: language === 'ar' ? 'تغطية شاملة' : 'Complete Coverage',
+      description: language === 'ar' ? 'خدمة في جميع المدن الرئيسية' : 'Service in all major cities'
+    }
+  ];
+
+  const officeLocations = [
+    {
+      country: language === 'ar' ? 'السعودية' : 'Saudi Arabia',
+      city: language === 'ar' ? 'الرياض' : 'Riyadh',
+      address: language === 'ar' ? 'شارع الملك فهد، حي العليا' : 'King Fahd Road, Al Olaya District',
+      phone: '+966 11 123 4567'
+    },
+    {
+      country: language === 'ar' ? 'الإمارات' : 'UAE',
+      city: language === 'ar' ? 'دبي' : 'Dubai',
+      address: language === 'ar' ? 'شارع الشيخ زايد، دبي مارينا' : 'Sheikh Zayed Road, Dubai Marina',
+      phone: '+971 4 123 4567'
     }
   ];
 
   return (
     <Layout>
-      <div className="min-h-screen py-12 sm:py-16 md:py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-8 sm:mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-              Contact Us
+      <SEOHead seoData={seoData} language={language} />
+      
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <section className="py-20 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              {t('contact.page.title')}
             </h1>
-            <p className="text-lg sm:text-xl text-blue-100 max-w-3xl mx-auto px-2">
-              Get in touch with us for reliable local services across the Middle East. 
-              We're here to help 24/7.
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+              {t('contact.page.description')}
             </p>
           </div>
+        </section>
 
-          {/* Quick Contact Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
-              <CardContent className="p-4 sm:p-6 text-center">
-                <Phone className="w-8 h-8 sm:w-10 sm:h-10 text-green-400 mx-auto mb-3 sm:mb-4" />
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Phone Support</h3>
-                <p className="text-blue-100 text-sm sm:text-base">24/7 Available</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
-              <CardContent className="p-4 sm:p-6 text-center">
-                <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-400 mx-auto mb-3 sm:mb-4" />
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">WhatsApp</h3>
-                <p className="text-blue-100 text-sm sm:text-base">Instant Response</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
-              <CardContent className="p-4 sm:p-6 text-center">
-                <Mail className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400 mx-auto mb-3 sm:mb-4" />
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Email</h3>
-                <p className="text-blue-100 text-sm sm:text-base">Professional Support</p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
-              <CardContent className="p-4 sm:p-6 text-center">
-                <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400 mx-auto mb-3 sm:mb-4" />
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Emergency</h3>
-                <p className="text-blue-100 text-sm sm:text-base">15 Min Response</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Country Contacts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {countries.map((country, index) => (
-              <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center mb-4 sm:mb-6">
-                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-300 mr-2 sm:mr-3" />
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white">
-                      {country.name}
+        {/* Contact Methods */}
+        <section className="py-16 bg-white/5 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white text-center mb-12">
+              {language === 'ar' ? 'طرق التواصل' : 'Contact Methods'}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {contactMethods.map((method, index) => (
+                <Card key={index} className={`bg-white/10 backdrop-blur-sm border-white/20 ${method.primary ? 'ring-2 ring-blue-400' : ''}`}>
+                  <CardContent className="p-6 text-center">
+                    <div className="flex justify-center mb-4">
+                      <method.icon className={`w-12 h-12 ${method.primary ? 'text-blue-300' : 'text-gray-300'}`} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      {method.title}
                     </h3>
-                  </div>
-                  
-                  <div className="space-y-3 sm:space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                      <div className="flex items-center text-blue-100">
-                        <Phone className="w-4 h-4 mr-2" />
-                        <span className="text-sm sm:text-base">Phone:</span>
-                      </div>
-                      <Button variant="outline" size="sm" className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-xs sm:text-sm">
-                        {country.phone}
-                      </Button>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                      <div className="flex items-center text-blue-100">
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        <span className="text-sm sm:text-base">WhatsApp:</span>
-                      </div>
-                      <Button variant="outline" size="sm" className="bg-green-600/20 border-green-500/30 text-green-300 hover:bg-green-600/30 text-xs sm:text-sm">
-                        {country.whatsapp}
-                      </Button>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                      <div className="flex items-center text-blue-100">
-                        <Mail className="w-4 h-4 mr-2" />
-                        <span className="text-sm sm:text-base">Email:</span>
-                      </div>
-                      <Button variant="outline" size="sm" className="bg-blue-600/20 border-blue-500/30 text-blue-300 hover:bg-blue-600/30 text-xs sm:text-sm">
-                        {country.email}
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    <p className="text-blue-200 mb-4">
+                      {method.description}
+                    </p>
+                    <Button 
+                      asChild 
+                      className={method.primary ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'}
+                    >
+                      <a href={method.link} target="_blank" rel="noopener noreferrer">
+                        {method.action}
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
+        </section>
 
-          {/* Emergency Contact */}
-          <Card className="mt-6 sm:mt-8 bg-red-900/20 backdrop-blur-sm border-red-500/30">
-            <CardContent className="p-4 sm:p-6 text-center">
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <div className="flex items-center">
-                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 mr-2" />
-                  <span className="text-lg sm:text-xl font-semibold text-white">Emergency Services</span>
+        {/* Support Features */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white text-center mb-12">
+              {language === 'ar' ? 'مميزات الدعم' : 'Support Features'}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {supportFeatures.map((feature, index) => (
+                <div key={index} className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <feature.icon className="w-16 h-16 text-blue-300" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-blue-200">
+                    {feature.description}
+                  </p>
                 </div>
-                <Button className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 text-sm sm:text-base">
-                  Call Emergency Hotline
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Office Locations */}
+        <section className="py-16 bg-white/5 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white text-center mb-12">
+              {language === 'ar' ? 'مواقع المكاتب' : 'Office Locations'}
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {officeLocations.map((office, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white">
+                      {office.country} - {office.city}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-5 h-5 text-blue-300 mt-1" />
+                      <span className="text-blue-100">{office.address}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-5 h-5 text-blue-300" />
+                      <a href={`tel:${office.phone}`} className="text-blue-100 hover:text-white">
+                        {office.phone}
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Emergency Contact */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <Card className="bg-red-900/20 border-red-400 max-w-2xl mx-auto">
+              <CardContent className="p-8 text-center">
+                <Phone className="w-16 h-16 text-red-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  {language === 'ar' ? 'خط الطوارئ' : 'Emergency Hotline'}
+                </h3>
+                <p className="text-red-200 mb-6">
+                  {language === 'ar' ? 'للحالات الطارئة في السباكة والكهرباء والتكييف' : 'For urgent plumbing, electrical, and HVAC emergencies'}
+                </p>
+                <Button size="lg" className="bg-red-600 hover:bg-red-700">
+                  <a href="tel:+966505123456" className="flex items-center gap-2">
+                    <Phone className="w-5 h-5" />
+                    +966 505 123 456
+                  </a>
                 </Button>
-              </div>
-              <p className="text-red-200 mt-2 sm:mt-3 text-sm sm:text-base">
-                For urgent plumbing, electrical, or HVAC emergencies - Available 24/7
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+                <p className="text-red-300 mt-4 text-sm">
+                  {language === 'ar' ? 'متاح 24/7' : 'Available 24/7'}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
       </div>
     </Layout>
   );

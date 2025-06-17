@@ -120,7 +120,7 @@ const translations = {
     'footer.popularServices': 'أشهر الخدمات',
     'footer.support': 'الدعم',
     'footer.contactUs': 'تواصل معنا',
-    'emergency.title': 'خدمة طوارئ {serviceType}', // {serviceType} will be replaced dynamically
+    'emergency.title': 'خدمة طوارئ {serviceType}',
     'emergency.assistance.title': 'هل تحتاج مساعدة فورية؟',
     'emergency.assistance.description': 'فنيو الطوارئ لدينا على أهبة الاستعداد 24/7',
     'emergency.minResponse': 'استجابة خلال 15-30 دقيقة',

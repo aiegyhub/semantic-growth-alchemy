@@ -5,7 +5,7 @@ import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Clock, Star, Shield, CheckCircle, Phone, MessageCircle } from 'lucide-react';
+import { MapPin, Star, Shield, CheckCircle, Phone, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { usePageData } from '@/hooks/usePageData';
 import SEOHead from '@/components/SEOHead';
@@ -68,9 +68,9 @@ const GenericServicePage = () => {
       <Layout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-2xl font-bold mb-4">Service Not Found</h1>
+            <h1 className="text-2xl font-bold mb-4">{t('service.notFound')}</h1>
             <Link to="/services">
-              <Button>Browse All Services</Button>
+              <Button>{t('button.viewServices')}</Button>
             </Link>
           </div>
         </div>
@@ -79,13 +79,20 @@ const GenericServicePage = () => {
   }
 
   const seoData = {
-    title: `${language === 'ar' ? currentService.nameAr : currentService.name} - احترافي وموثوق`,
+    title: `${language === 'ar' ? currentService.nameAr : currentService.name} - ${t('nav.services')}`,
     description: language === 'ar' ? currentService.description.shortAr : currentService.description.short,
-    keywords: `${language === 'ar' ? currentService.nameAr : currentService.name}, خدمات, صيانة, إصلاح`,
+    keywords: [language === 'ar' ? currentService.nameAr : currentService.name, t('nav.services'), 'خدمات', 'صيانة', 'إصلاح'],
+    canonical: `/services/item/${currentService.slug}`,
+    schemaMarkup: {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": language === 'ar' ? currentService.nameAr : currentService.name,
+      "description": language === 'ar' ? currentService.description.shortAr : currentService.description.short
+    }
   };
 
   const price = currentService.pricing.basePrice 
-    ? `${currentService.pricing.basePrice} ${currentService.pricing.currency}` 
+    ? `${t('startingFrom')} ${currentService.pricing.basePrice} ${currentService.pricing.currency}` 
     : t('pricing.onQuote');
 
   return (
@@ -99,7 +106,7 @@ const GenericServicePage = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <div className="flex items-center gap-2 text-blue-300">
-                  <Link to="/services" className="hover:text-white">الخدمات</Link>
+                  <Link to="/services" className="hover:text-white">{t('nav.services')}</Link>
                   <span>→</span>
                   {category && (
                     <>
@@ -125,13 +132,13 @@ const GenericServicePage = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className={`w-5 h-5 ${i < Math.round(averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-400'}`} />
                     ))}
-                    <span className="text-white font-semibold">{averageRating} ({serviceTestimonials.length} تقييم)</span>
+                    <span className="text-white font-semibold">{averageRating} ({serviceTestimonials.length} {language === 'ar' ? 'تقييم' : 'reviews'})</span>
                   </div>
                   
                   {currentService.isEmergency && (
                     <Badge className="bg-red-600 text-white">
                       <Shield className="w-4 h-4 mr-1" />
-                      خدمة طوارئ
+                      {language === 'ar' ? 'خدمة طوارئ' : 'Emergency Service'}
                     </Badge>
                   )}
                 </div>
@@ -139,11 +146,11 @@ const GenericServicePage = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button size="lg" className="bg-green-600 hover:bg-green-700">
                     <Phone className="w-5 h-5 mr-2" />
-                    اتصل الآن
+                    {t('button.contact')}
                   </Button>
                   <Button size="lg" variant="outline" className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white">
                     <MessageCircle className="w-5 h-5 mr-2" />
-                    واتساب
+                    {t('whatsapp')}
                   </Button>
                 </div>
               </div>
@@ -168,29 +175,29 @@ const GenericServicePage = () => {
                 {/* Description */}
                 <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                   <CardHeader>
-                    <CardTitle className="text-white">تفاصيل الخدمة</CardTitle>
+                    <CardTitle className="text-white">{t('service.descriptionTitle')}</CardTitle>
                   </CardHeader>
                   <CardContent className="text-blue-100 space-y-4">
                     <p className="leading-relaxed">
-                      {language === 'ar' ? currentService.description.fullAr : currentService.description.full}
+                      {language === 'ar' ? currentService.description.longAr : currentService.description.long}
                     </p>
                     
                     <div className="grid md:grid-cols-2 gap-4 mt-6">
                       <div className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span>خدمة احترافية معتمدة</span>
+                        <span>{t('service.features.certified')}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span>ضمان على الخدمة</span>
+                        <span>{t('service.features.warranty')}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span>فريق مدرب ومؤهل</span>
+                        <span>{t('service.features.fast')}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span>أسعار تنافسية</span>
+                        <span>{t('service.features.pricing')}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -199,7 +206,7 @@ const GenericServicePage = () => {
                 {/* Available Cities */}
                 <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                   <CardHeader>
-                    <CardTitle className="text-white">المدن المتاحة</CardTitle>
+                    <CardTitle className="text-white">{language === 'ar' ? 'المدن المتاحة' : 'Available Cities'}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -225,26 +232,26 @@ const GenericServicePage = () => {
               <div className="space-y-6">
                 <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                   <CardHeader>
-                    <CardTitle className="text-white">معلومات سريعة</CardTitle>
+                    <CardTitle className="text-white">{language === 'ar' ? 'معلومات سريعة' : 'Quick Info'}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-blue-200">المدة المتوقعة:</span>
+                      <span className="text-blue-200">{language === 'ar' ? 'المدة المتوقعة:' : 'Duration:'}</span>
                       <span className="text-white font-semibold">{language === 'ar' ? currentService.duration.textAr : currentService.duration.text}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-blue-200">السعر:</span>
+                      <span className="text-blue-200">{language === 'ar' ? 'السعر:' : 'Price:'}</span>
                       <span className="text-white font-semibold">{price}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-blue-200">التقييم:</span>
+                      <span className="text-blue-200">{language === 'ar' ? 'التقييم:' : 'Rating:'}</span>
                       <span className="text-white font-semibold">{averageRating}/5</span>
                     </div>
                     {currentService.isEmergency && (
                       <div className="bg-red-600/20 border border-red-400 rounded-lg p-3">
                         <div className="flex items-center gap-2 text-red-300">
                           <Shield className="w-4 h-4" />
-                          <span className="font-semibold">خدمة طوارئ 24/7</span>
+                          <span className="font-semibold">{language === 'ar' ? 'خدمة طوارئ 24/7' : '24/7 Emergency Service'}</span>
                         </div>
                       </div>
                     )}
@@ -255,7 +262,7 @@ const GenericServicePage = () => {
                 {relatedServices.length > 0 && (
                   <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                     <CardHeader>
-                      <CardTitle className="text-white">خدمات ذات صلة</CardTitle>
+                      <CardTitle className="text-white">{language === 'ar' ? 'خدمات ذات صلة' : 'Related Services'}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {relatedServices.map(service => (
@@ -283,7 +290,7 @@ const GenericServicePage = () => {
           <section className="py-16">
             <div className="container mx-auto px-4">
               <h2 className="text-3xl font-bold text-white text-center mb-12">
-                آراء العملاء في هذه الخدمة
+                {language === 'ar' ? 'آراء العملاء في هذه الخدمة' : 'Customer Reviews for This Service'}
               </h2>
               <TestimonialsCarousel testimonials={serviceTestimonials} />
             </div>
