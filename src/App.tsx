@@ -1,85 +1,71 @@
-import { lazy, Suspense } from 'react';
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from 'react-helmet-async';
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import ErrorBoundary from "@/components/ErrorBoundary";
 
-// Lazy-loaded page components
-const Index = lazy(() => import("./pages/Index"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const ServicePage = lazy(() => import("./pages/ServicePage"));
-const SaudiArabia = lazy(() => import("./pages/SaudiArabia"));
-const UAE = lazy(() => import("./pages/UAE"));
-const Kuwait = lazy(() => import("./pages/Kuwait"));
-const Egypt = lazy(() => import("./pages/Egypt"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const TermsConditions = lazy(() => import("./pages/TermsConditions"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const CityPage = lazy(() => import("./pages/CityPage"));
-const ServicesListPage = lazy(() => import("./pages/ServicesListPage"));
-const GenericServicePage = lazy(() => import("./pages/GenericServicePage"));
-const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+import { Toaster } from '@/components/ui/sonner';
 
-const queryClient = new QueryClient();
+import Index from '@/pages/Index';
+import About from '@/pages/About';
+import Contact from '@/pages/Contact';
+import NotFound from '@/pages/NotFound';
+import ServicesListPage from '@/pages/ServicesListPage';
+import ServicePage from '@/pages/ServicePage';
+import GenericServicePage from '@/pages/GenericServicePage';
+import CategoryPage from '@/pages/CategoryPage';
+import SaudiArabia from '@/pages/SaudiArabia';
+import UAE from '@/pages/UAE';
+import Kuwait from '@/pages/Kuwait';
+import Egypt from '@/pages/Egypt';
+import CityPage from '@/pages/CityPage';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsConditions from '@/pages/TermsConditions';
+import Sitemap from '@/pages/Sitemap';
 
-const LoadingFallback = () => (
-  <div className="min-h-screen w-full flex items-center justify-center bg-blue-900">
-    <div className="text-white text-xl">Loading...</div>
-  </div>
-);
+import './App.css';
 
-// FIX: Routes have been reordered to place more specific routes before general ones.
-const routeConfig = [
-  { path: "/", element: <Index /> },
-  { path: "/about", element: <About /> },
-  { path: "/contact", element: <Contact /> },
-  { path: "/privacy-policy", element: <PrivacyPolicy /> },
-  { path: "/terms-conditions", element: <TermsConditions /> },
-  
-  // Specific country and service pages before fully dynamic routes
-  { path: "/sa", element: <SaudiArabia /> },
-  { path: "/ae", element: <UAE /> },
-  { path: "/kw", element: <Kuwait /> },
-  { path: "/eg", element: <Egypt /> },
-  { path: "/services", element: <ServicesListPage /> },
-  { path: "/services/category/:categorySlug", element: <CategoryPage /> },
-  { path: "/services/item/:serviceSlug", element: <GenericServicePage /> },
-  
-  // Fully dynamic routes are placed last
-  { path: "/:country/:city", element: <CityPage /> },
-  { path: "/:country/:city/:service", element: <ServicePage /> },
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
-  // Catch-all route at the very end
-  { path: "*", element: <NotFound /> },
-];
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <TooltipProvider>
-        <LanguageProvider>
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/services" element={<ServicesListPage />} />
+            <Route path="/services/category/:categorySlug" element={<CategoryPage />} />
+            <Route path="/services/item/:serviceSlug" element={<GenericServicePage />} />
+            <Route path="/services/:serviceSlug" element={<GenericServicePage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-conditions" element={<TermsConditions />} />
+            <Route path="/sitemap" element={<Sitemap />} />
+            
+            {/* Country routes */}
+            <Route path="/sa" element={<SaudiArabia />} />
+            <Route path="/ae" element={<UAE />} />
+            <Route path="/kw" element={<Kuwait />} />
+            <Route path="/eg" element={<Egypt />} />
+            
+            {/* City and service routes */}
+            <Route path="/:countrySlug/:citySlug" element={<CityPage />} />
+            <Route path="/:countrySlug/:citySlug/:serviceSlug" element={<ServicePage />} />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
           <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  {routeConfig.map((route, index) => (
-                    <Route key={index} path={route.path} element={route.element} />
-                  ))}
-                </Routes>
-              </Suspense>
-            </ErrorBoundary>
-          </BrowserRouter>
-        </LanguageProvider>
-      </TooltipProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
-);
+        </Router>
+      </LanguageProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

@@ -1,5 +1,4 @@
-
-import { Mail, Phone, MessageCircle, Code, Globe } from 'lucide-react';
+import { Mail, Phone, MessageCircle, Code, Globe, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getCountries, getCities, getServices } from '@/lib/cms';
@@ -36,11 +35,54 @@ export default function Footer() {
     { path: "/privacy-policy", label: t('footer.privacy') },
     { path: "/terms-conditions", label: t('footer.terms') },
   ];
+
+  const socialLinks = [
+    {
+      name: 'Facebook',
+      url: 'https://facebook.com/musaaed',
+      icon: Facebook,
+      color: 'hover:text-blue-500'
+    },
+    {
+      name: 'Instagram',
+      url: 'https://instagram.com/musaaed',
+      icon: Instagram,
+      color: 'hover:text-pink-500'
+    },
+    {
+      name: 'Twitter',
+      url: 'https://twitter.com/musaaed',
+      icon: Twitter,
+      color: 'hover:text-blue-400'
+    },
+    {
+      name: 'Youtube',
+      url: 'https://youtube.com/@musaaed',
+      icon: Youtube,
+      color: 'hover:text-red-500'
+    }
+  ];
   
   const renderCopyrightSection = () => (
-    <div className="border-t border-white/10 mt-8 pt-8 space-y-4">
+    <div className="border-t border-white/10 mt-8 pt-8 space-y-6">
+      {/* Social Media Links */}
+      <div className="flex justify-center space-x-6">
+        {socialLinks.map((social) => (
+          <a
+            key={social.name}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-blue-300 ${social.color} transition-colors duration-300 transform hover:scale-110`}
+            aria-label={`${isArabic ? 'تابعنا على' : 'Follow us on'} ${social.name}`}
+          >
+            <social.icon className="w-6 h-6" />
+          </a>
+        ))}
+      </div>
+
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-blue-300 order-last sm:order-first">
+        <p className="text-sm text-blue-300 order-last sm:order-first text-center sm:text-left">
           {isArabic ? `© 2024 مساعد. ${t('footer.allRightsReserved')}` : `© 2024 Musaaed. ${t('footer.allRightsReserved')}`}
         </p>
         <div className="flex justify-center gap-x-6">
@@ -49,31 +91,36 @@ export default function Footer() {
           ))}
         </div>
       </div>
-      <div className="flex justify-center items-center gap-x-4 pt-2">
-        <div className="flex items-center gap-x-2 bg-white/5 rounded-lg px-3 py-2">
-          <Code className="w-4 h-4 text-blue-400" />
+      
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2">
+        <div className="flex items-center gap-x-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl px-4 py-3 border border-blue-400/20">
+          <Code className="w-5 h-5 text-blue-400" />
           <span className="text-sm text-gray-300">{isArabic ? 'تصميم وتطوير' : 'Designed & Developed by'}</span>
-          <span className="text-sm font-semibold text-white">{isArabic ? 'إلبيشو' : 'Elbesho'}</span>
+          <span className="text-sm font-bold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            {isArabic ? 'إلبيشو' : 'Elbesho'}
+          </span>
         </div>
+        
         <a 
           href="https://wa.me/201027414343" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="flex items-center gap-x-2 bg-green-600/20 hover:bg-green-600/30 rounded-lg px-3 py-2 transition-colors"
+          className="flex items-center gap-x-2 bg-gradient-to-r from-green-600/20 to-green-500/20 hover:from-green-600/30 hover:to-green-500/30 rounded-xl px-4 py-3 transition-all duration-300 border border-green-400/20 transform hover:scale-105"
           aria-label="Contact developer on WhatsApp"
         >
-          <MessageCircle className="w-4 h-4 text-green-400" />
-          <span className="text-sm text-green-300">{isArabic ? 'تواصل' : 'Contact'}</span>
+          <MessageCircle className="w-5 h-5 text-green-400" />
+          <span className="text-sm font-medium text-green-300">{isArabic ? 'تواصل' : 'Contact'}</span>
         </a>
+        
         <a 
           href="https://musaaed.com" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="flex items-center gap-x-2 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg px-3 py-2 transition-colors"
+          className="flex items-center gap-x-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/30 hover:to-purple-600/30 rounded-xl px-4 py-3 transition-all duration-300 border border-blue-400/20 transform hover:scale-105"
           aria-label="Visit website"
         >
-          <Globe className="w-4 h-4 text-blue-400" />
-          <span className="text-sm text-blue-300">musaaed.com</span>
+          <Globe className="w-5 h-5 text-blue-400" />
+          <span className="text-sm font-medium text-blue-300">musaaed.com</span>
         </a>
       </div>
     </div>

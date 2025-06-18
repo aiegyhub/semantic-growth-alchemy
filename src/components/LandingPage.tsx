@@ -4,9 +4,12 @@ import HeroSection from '@/components/HeroSection';
 import StatsSection from '@/components/StatsSection';
 import CountriesSection from '@/components/CountriesSection';
 import PopularServicesSection from '@/components/PopularServicesSection';
+import OffersSection from '@/components/OffersSection';
+import InteractiveMap from '@/components/InteractiveMap';
 import PlatformFeaturesSection from '@/components/PlatformFeaturesSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import ContentOptimizationSection from '@/components/ContentOptimizationSection';
+import OffersSidebar from '@/components/OffersSidebar';
 
 interface LandingPageProps {
   countries: Country[];
@@ -18,11 +21,14 @@ export default function LandingPage({ countries, popularServices }: LandingPageP
     <div>
       <HeroSection />
       <StatsSection />
+      <OffersSection />
       <CountriesSection countries={countries} />
       <PopularServicesSection services={popularServices} />
+      <InteractiveMap />
       <ContentOptimizationSection />
       <TestimonialsSection />
       <PlatformFeaturesSection />
+      <OffersSidebar />
     </div>
   );
 }
