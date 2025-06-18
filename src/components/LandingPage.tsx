@@ -5,6 +5,8 @@ import StatsSection from '@/components/StatsSection';
 import CountriesSection from '@/components/CountriesSection';
 import PopularServicesSection from '@/components/PopularServicesSection';
 import PlatformFeaturesSection from '@/components/PlatformFeaturesSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import ContentOptimizationSection from '@/components/ContentOptimizationSection';
 
 interface LandingPageProps {
   countries: Country[];
@@ -18,6 +20,8 @@ export default function LandingPage({ countries, popularServices }: LandingPageP
       <StatsSection />
       <CountriesSection countries={countries} />
       <PopularServicesSection services={popularServices} />
+      <ContentOptimizationSection />
+      <TestimonialsSection />
       <PlatformFeaturesSection />
     </div>
   );

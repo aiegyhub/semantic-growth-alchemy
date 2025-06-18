@@ -18,7 +18,7 @@ export function generateSitemap(
   const now = new Date().toISOString().split('T')[0];
   
   const entries: SitemapEntry[] = [
-    // Homepage
+    // Homepage - highest priority
     {
       url: baseUrl,
       lastmod: now,
@@ -46,20 +46,20 @@ export function generateSitemap(
       priority: 0.9
     },
     {
-      url: `${baseUrl}/privacy`,
+      url: `${baseUrl}/privacy-policy`,
       lastmod: now,
       changefreq: 'monthly',
-      priority: 0.5
+      priority: 0.3
     },
     {
-      url: `${baseUrl}/terms`,
+      url: `${baseUrl}/terms-conditions`,
       lastmod: now,
       changefreq: 'monthly',
-      priority: 0.5
+      priority: 0.3
     }
   ];
 
-  // Country pages
+  // Country pages - high priority for SEO
   countries.forEach(country => {
     entries.push({
       url: `${baseUrl}/${country.slug}`,
@@ -69,7 +69,7 @@ export function generateSitemap(
     });
   });
 
-  // City pages
+  // City pages - important for local SEO
   cities.forEach(city => {
     const country = countries.find(c => c.id === city.countryId);
     if (country) {
@@ -93,7 +93,7 @@ export function generateSitemap(
   });
 
   // Generic service pages
-  services.forEach(service => {
+  services.filter(s => s.isActive).forEach(service => {
     entries.push({
       url: `${baseUrl}/services/item/${service.slug}`,
       lastmod: now,
@@ -102,22 +102,26 @@ export function generateSitemap(
     });
   });
 
-  // City-specific service pages
-  services.forEach(service => {
+  // City-specific service pages - highest conversion pages
+  services.filter(s => s.isActive).forEach(service => {
     service.availableCityIds.forEach(cityId => {
       const city = cities.find(c => c.id === cityId);
       const country = countries.find(c => c.id === city?.countryId);
       
       if (city && country) {
+        const priority = service.isPopular ? 0.9 : 0.8;
         entries.push({
           url: `${baseUrl}/${country.slug}/${city.slug}/${service.slug}`,
           lastmod: now,
           changefreq: 'weekly',
-          priority: 0.8
+          priority
         });
       }
     });
   });
+
+  // Sort by priority for better SEO
+  entries.sort((a, b) => b.priority - a.priority);
 
   // Generate XML
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
@@ -143,15 +147,38 @@ export function generateRobotsTxt(): string {
   return `User-agent: *
 Allow: /
 
+# High-priority content for SEO
+Allow: /sa/
+Allow: /ae/
+Allow: /kw/
+Allow: /eg/
+Allow: /services/
+
 # Sitemaps
 Sitemap: ${baseUrl}/sitemap.xml
 
-# Crawl delay
+# Crawl delay for better server performance
 Crawl-delay: 1
 
-# Disallow admin and private areas
+# Block admin and private areas
 Disallow: /admin/
 Disallow: /api/
 Disallow: /private/
+Disallow: /internal/
+
+# Block development files
+Disallow: /*.json$
+Disallow: /src/
+Disallow: /node_modules/
+
+# SEO optimizations
+User-agent: Googlebot
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: Slurp
+Crawl-delay: 2
 `;
 }

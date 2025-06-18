@@ -1,24 +1,12 @@
 
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
+import { Testimonial } from '@/lib/testimonials';
 
-// Define the shape of a single testimonial for type safety and clarity
-interface Testimonial {
-  id: string;
-  name: string;
-  rating: number;
-  comment: string;
-  serviceId: string;
-  city: string;
-  date: string;
-}
-
-// The component now only needs the testimonials array to render.
 interface TestimonialsProps {
   testimonials: Testimonial[];
 }
 
 export default function Testimonials({ testimonials }: TestimonialsProps) {
-  // If no testimonials are provided, the component renders nothing.
   if (!testimonials || testimonials.length === 0) {
     return null;
   }
