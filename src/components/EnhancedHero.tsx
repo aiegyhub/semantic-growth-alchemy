@@ -1,99 +1,103 @@
 
-import { Phone, Clock, MapPin, Shield, Star, ArrowRight } from 'lucide-react';
+import { Phone, Search, CheckCircle, Star, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
 export default function EnhancedHero() {
-  const { t, language } = useLanguage();
+  const { language, t } = useLanguage();
   const isArabic = language === 'ar';
 
+  const trustIndicators = [
+    { icon: CheckCircle, text: isArabic ? 'محترفون معتمدون' : 'Verified Professionals' },
+    { icon: Clock, text: isArabic ? 'خدمة سريعة' : 'Fast Service' },
+    { icon: Star, text: isArabic ? 'تقييم ممتاز' : 'Excellent Rating' }
+  ];
+
   return (
-    <section className="relative py-20 px-4 overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-blue-800/80 to-purple-900/80" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.15),transparent_50%)]" />
-      
-      <div className="container mx-auto text-center relative">
-        {/* Main Content */}
-        <div className="max-w-4xl mx-auto">
-          <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${isArabic ? 'text-right' : 'text-left'}`}>
-            {t('hero.title')}
-            <span className="block text-blue-300 mt-2">{t('hero.subtitle')}</span>
-          </h1>
-          
-          <p className={`text-lg sm:text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-            {t('hero.description')}
-          </p>
+    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background with gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
+        <div className="absolute inset-0 bg-black/20"></div>
+        {/* Decorative elements */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl"></div>
+      </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-6 mb-8 text-blue-200">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-green-400" />
-              <span className="text-sm font-medium">{t('verified')}</span>
+      <div className="relative container mx-auto px-4 text-center">
+        {/* Trust badge */}
+        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-white/20">
+          <Star className="w-4 h-4 text-yellow-400" />
+          <span className="text-white text-sm font-medium">
+            {isArabic ? '4.9/5 من آلاف العملاء' : '4.9/5 from thousands of customers'}
+          </span>
+        </div>
+
+        {/* Main heading */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+          <span className="block">{t('hero.title')}</span>
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            {t('hero.subtitle')}
+          </span>
+        </h1>
+
+        {/* Description */}
+        <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+          {t('hero.description')}
+        </p>
+
+        {/* Trust indicators */}
+        <div className="flex flex-wrap justify-center gap-6 mb-8">
+          {trustIndicators.map((indicator, index) => (
+            <div key={index} className="flex items-center gap-2 text-blue-200">
+              <indicator.icon className="w-5 h-5 text-green-400" />
+              <span className="text-sm font-medium">{indicator.text}</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <Star className="w-5 h-5 text-yellow-400" />
-              <span className="text-sm font-medium">4.9/5</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <MapPin className="w-5 h-5 text-blue-400" />
-              <span className="text-sm font-medium">50+ {t('about.stats.citiesCovered')}</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-purple-400" />
-              <span className="text-sm font-medium">{t('hero.available247')}</span>
-            </div>
-          </div>
-          
-          {/* Enhanced CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button 
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              size="lg"
-            >
-              <Phone className="w-5 h-5 mr-2" />
+          ))}
+        </div>
+
+        {/* CTA buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <Button 
+            asChild 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 px-8 py-4 text-lg font-semibold shadow-2xl"
+          >
+            <Link to="/services" className="flex items-center gap-2">
+              <Search className="w-5 h-5" />
               {t('hero.cta.primary')}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            
-            <Button 
-              variant="outline"
-              className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold backdrop-blur-sm"
-              size="lg"
-            >
-              <Clock className="w-5 h-5 mr-2" />
+            </Link>
+          </Button>
+          
+          <Button 
+            asChild 
+            variant="outline" 
+            size="lg" 
+            className="border-white/30 bg-white/10 text-white hover:bg-white/20 px-8 py-4 text-lg font-semibold backdrop-blur-sm"
+          >
+            <a href="tel:+966111234567" className="flex items-center gap-2">
+              <Phone className="w-5 h-5" />
               {t('hero.cta.secondary')}
-            </Button>
-          </div>
+            </a>
+          </Button>
+        </div>
 
-          {/* Service Coverage with Flags */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-semibold text-white mb-6">{t('countries.availableIn')}</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center group cursor-pointer">
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">🇸🇦</div>
-                <p className="text-white font-medium">{t('nav.saudi')}</p>
-                <p className="text-blue-200 text-sm">25+ مدينة</p>
-              </div>
-              <div className="text-center group cursor-pointer">
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">🇦🇪</div>
-                <p className="text-white font-medium">{t('nav.uae')}</p>
-                <p className="text-blue-200 text-sm">15+ مدينة</p>
-              </div>
-              <div className="text-center group cursor-pointer">
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">🇰🇼</div>
-                <p className="text-white font-medium">{t('nav.kuwait')}</p>
-                <p className="text-blue-200 text-sm">8+ مدينة</p>
-              </div>
-              <div className="text-center group cursor-pointer">
-                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">🇪🇬</div>
-                <p className="text-white font-medium">{t('nav.egypt')}</p>
-                <p className="text-blue-200 text-sm">12+ مدينة</p>
-              </div>
+        {/* Bottom section with availability */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h3 className="text-white font-semibold mb-1">{t('hero.available247')}</h3>
+              <p className="text-blue-200 text-sm">{t('hero.support')}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-green-400 font-medium">
+                {isArabic ? 'متصل الآن' : 'Online Now'}
+              </span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

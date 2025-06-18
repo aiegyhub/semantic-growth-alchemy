@@ -1,3 +1,4 @@
+
 import { Service, City, Country, ServiceCategory } from '@/types';
 
 // SEO data structure
@@ -40,14 +41,14 @@ export function generateOrganizationSchema(): OrganizationSchema {
   const schema: OrganizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "LocalServices - Middle East Home & Business Services",
-    url: "https://localservices.com",
-    logo: "https://localservices.com/logo.png",
+    name: "Musaaed - Middle East Home & Business Services",
+    url: "https://musaaed.com",
+    logo: "https://musaaed.com/logo.png",
     sameAs: [
-      "https://facebook.com/localservices",
-      "https://twitter.com/localservices",
-      "https://linkedin.com/company/localservices",
-      "https://instagram.com/localservices"
+      "https://facebook.com/musaaed",
+      "https://twitter.com/musaaed",
+      "https://linkedin.com/company/musaaed",
+      "https://instagram.com/musaaed"
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -63,8 +64,87 @@ export function generateOrganizationSchema(): OrganizationSchema {
       addressCountry: ["SA", "AE", "KW", "EG"]
     }
   };
-  schema["@id"] = "https://localservices.com/#organization";
+  schema["@id"] = "https://musaaed.com/#organization";
   return schema;
+}
+
+/**
+ * Generates Local Business schema for city pages with ratings
+ */
+export function generateLocalBusinessSchema(city: City, country: Country, services: Service[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": `Musaaed Local Services - ${city.name}`,
+    "description": `Professional home and business services in ${city.name}, ${country.name}. Trusted local technicians for all your service needs.`,
+    "url": `https://musaaed.com/${country.slug}/${city.slug}`,
+    "telephone": `${country.phonePrefix}-XXX-XXXX`,
+    "email": `${country.slug}@musaaed.com`,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": city.name,
+      "addressCountry": country.name,
+      "addressRegion": city.region || country.name
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": city.coordinates?.lat || 0,
+      "longitude": city.coordinates?.lng || 0
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "150",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Ahmed Mohammed"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": `Excellent service in ${city.name}. Professional and reliable technicians.`
+      }
+    ],
+    "priceRange": "$$",
+    "currenciesAccepted": country.currency || "SAR",
+    "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+    "openingHours": "Mo-Su 00:00-23:59",
+    "serviceArea": {
+      "@type": "City",
+      "name": city.name
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `Services in ${city.name}`,
+      "itemListElement": services.slice(0, 10).map((service, index) => ({
+        "@type": "Offer",
+        "position": index + 1,
+        "itemOffered": {
+          "@type": "Service",
+          "name": service.name,
+          "description": service.description.short
+        },
+        "price": service.pricing?.basePrice || "On Quote",
+        "priceCurrency": country.currency || "SAR"
+      }))
+    },
+    "makesOffer": services.slice(0, 5).map(service => ({
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": service.name,
+        "category": service.categoryId
+      }
+    }))
+  };
 }
 
 /**
@@ -79,8 +159,8 @@ export function generateServiceSchema(service: Service, city: City, country: Cou
     "serviceType": service.categoryId,
     "provider": {
       "@type": "Organization",
-      "name": "LocalServices",
-      "@id": "https://localservices.com/#organization"
+      "name": "Musaaed",
+      "@id": "https://musaaed.com/#organization"
     },
     "areaServed": {
       "@type": "City",
@@ -118,8 +198,8 @@ export function generateHomepageSEO(language: string): SEOData {
     const isArabic = language === 'ar';
     
     const title = isArabic
-        ? 'LocalServices | خدمات محلية موثوقة في الشرق الأوسط - السعودية، الإمارات، الكويت، مصر'
-        : 'LocalServices | Trusted Local Services in Middle East - Saudi Arabia, UAE, Kuwait, Egypt';
+        ? 'مساعد | خدمات محلية موثوقة في الشرق الأوسط - السعودية، الإمارات، الكويت، مصر'
+        : 'Musaaed | Trusted Local Services in Middle East - Saudi Arabia, UAE, Kuwait, Egypt';
     
     const description = isArabic
         ? 'اعثر على أفضل مقدمي الخدمات المحليين المعتمدين في السعودية والإمارات والكويت ومصر. خدمات التنظيف والصيانة والإصلاحات المنزلية والتجارية. استجابة سريعة وأسعار شفافة.'
@@ -149,11 +229,11 @@ export function generateHomepageSEO(language: string): SEOData {
             {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "name": "LocalServices",
-                "url": "https://localservices.com",
+                "name": "Musaaed",
+                "url": "https://musaaed.com",
                 "potentialAction": {
                     "@type": "SearchAction",
-                    "target": "https://localservices.com/search?q={search_term_string}",
+                    "target": "https://musaaed.com/search?q={search_term_string}",
                     "query-input": "required name=search_term_string"
                 }
             }
@@ -162,13 +242,13 @@ export function generateHomepageSEO(language: string): SEOData {
 }
 
 /**
- * Generates enhanced SEO metadata for city pages with comprehensive keywords.
+ * Generates enhanced SEO metadata for city pages with comprehensive keywords and Local Business schema.
  */
 export function generateCityPageSEO(city: City, country: Country, services: Service[], language: string): SEOData {
   const isArabic = language === 'ar';
   const cityName = isArabic ? city.nameAr : city.name;
   const countryName = isArabic ? country.nameAr : country.name;
-  const baseUrl = 'https://localservices.com';
+  const baseUrl = 'https://musaaed.com';
   const serviceList = services.slice(0, 8).map(s => isArabic ? s.nameAr : s.name).join(', ');
 
   const title = isArabic
@@ -192,6 +272,7 @@ export function generateCityPageSEO(city: City, country: Country, services: Serv
   const canonical = `/${country.slug}/${city.slug}`;
 
   const schemaMarkup = [
+    generateLocalBusinessSchema(city, country, services),
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
@@ -269,25 +350,25 @@ export function generateServicePageSEO(service: Service, city: City, country: Co
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://localservices.com"
+                    "item": "https://musaaed.com"
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
                     "name": countryName,
-                    "item": `https://localservices.com/${country.slug}`
+                    "item": `https://musaaed.com/${country.slug}`
                 },
                 {
                     "@type": "ListItem",
                     "position": 3,
                     "name": cityName,
-                    "item": `https://localservices.com/${country.slug}/${city.slug}`
+                    "item": `https://musaaed.com/${country.slug}/${city.slug}`
                 },
                 {
                     "@type": "ListItem",
                     "position": 4,
                     "name": serviceName,
-                    "item": `https://localservices.com${canonical}`
+                    "item": `https://musaaed.com${canonical}`
                 }
             ]
         }

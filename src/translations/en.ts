@@ -1,3 +1,4 @@
+
 export const enTranslations = {
   // --- Basic Keys ---
   'nav.home': 'Home',
@@ -14,10 +15,10 @@ export const enTranslations = {
   'hero.title': 'Find Local Services',
   'hero.subtitle': 'Across the Middle East',
   'hero.description': 'Connect with verified local professionals in Saudi Arabia, UAE, Kuwait, and Egypt. Get instant quotes and reliable service for your home and business needs.',
-  'hero.call': 'Call Now:',
+  'hero.call': 'Call Now',
   'hero.support': '24/7 Support',
   'hero.available247': '24/7 Available',
-  'about.title': 'About LocalServices',
+  'about.title': 'About Musaaed',
   'about.mission': 'Our Mission',
   'contact.title': 'Contact Us',
   'services.title': 'All Services',
@@ -100,11 +101,15 @@ export const enTranslations = {
   'availability.am': 'AM',
   'availability.pm': 'PM',
   'footer.allRightsReserved': 'All rights reserved',
-  'footer.developerCredit': 'Designed & Developed by Elb3sho',
+  'footer.developerCredit': 'Designed & Developed by Elbesho',
   'footer.majorCities': 'Major Cities',
   'footer.popularServices': 'Popular Services',
   'footer.support': 'Support',
   'footer.contactUs': 'Contact Us',
+  'footer.about': 'About',
+  'footer.contact': 'Contact',
+  'footer.privacy': 'Privacy',
+  'footer.terms': 'Terms',
   'emergency.title': 'Emergency {serviceType} Service',
   'emergency.assistance.title': 'Need immediate assistance?',
   'emergency.assistance.description': 'Our emergency technicians are standing by 24/7',
@@ -125,7 +130,7 @@ export const enTranslations = {
   'contact.phoneSupport': 'Phone Support',
   'contact.instantResponse': 'Instant Response',
   'contact.professionalSupport': 'Professional Support',
-  'about.page.title': 'About LocalServices',
+  'about.page.title': 'About Musaaed',
   'about.page.description': "We are the Middle East's leading platform connecting customers with trusted local service professionals. Since 2020, we've been making home and business services accessible, reliable, and affordable.",
   'about.mission.title': 'Our Mission',
   'about.mission.text': 'To transform how people access local services by creating a trusted, efficient, and transparent marketplace that benefits both customers and service professionals across the Middle East region.',
@@ -163,7 +168,11 @@ export const enTranslations = {
   'features.reliable.description': 'Background-checked professionals you can trust in your home or business',
   'features.affordable.title': 'Competitive Pricing',
   'features.affordable.description': 'Transparent, upfront pricing with no hidden fees or surprises',
-  'meta.homepage.title': 'LocalServices - Find Trusted Local Services in Middle East | Saudi Arabia, UAE, Kuwait, Egypt',
+  'meta.homepage.title': 'Musaaed - Find Trusted Local Services in Middle East | Saudi Arabia, UAE, Kuwait, Egypt',
   'meta.homepage.description': 'Connect with verified local professionals for home and business services across Saudi Arabia, UAE, Kuwait, and Egypt. Get instant quotes for cleaning, maintenance, repairs, and more.',
-  'meta.keywords': 'local services, home services, maintenance, cleaning, repairs, Saudi Arabia, UAE, Kuwait, Egypt, professional services, verified technicians'
+  'meta.keywords': 'local services, home services, maintenance, cleaning, repairs, Saudi Arabia, UAE, Kuwait, Egypt, professional services, verified technicians',
+  'trust.customers': 'Satisfied Customers',
+  'trust.satisfaction': 'Satisfaction Rate',
+  'trust.support': '24/7 Support',
+  'trust.experience': 'Years Experience'
 };

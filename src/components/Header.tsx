@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from 'react';
 import { Menu, Phone, Globe, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,7 +40,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="text-white text-2xl font-bold">
             <Link to="/" className="hover:text-blue-200 transition-colors">
-              LocalServices
+              {language === 'ar' ? 'مساعد' : 'Musaaed'}
             </Link>
           </div>
           

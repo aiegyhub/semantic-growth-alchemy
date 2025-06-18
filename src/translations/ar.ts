@@ -1,3 +1,4 @@
+
 export const arTranslations = {
   // --- Basic Keys ---
   'nav.home': 'الرئيسية',
@@ -14,10 +15,10 @@ export const arTranslations = {
   'hero.title': 'اعثر على خدمات محلية',
   'hero.subtitle': 'في جميع أنحاء الشرق الأوسط',
   'hero.description': 'تواصل مع محترفين محليين معتمدين في السعودية والإمارات والكويت ومصر. احصل على عروض أسعار فورية وخدمة موثوقة لاحتياجات منزلك وعملك.',
-  'hero.call': 'اتصل الآن:',
+  'hero.call': 'اتصل الآن',
   'hero.support': 'دعم على مدار الساعة',
   'hero.available247': 'متوفر 24/7',
-  'about.title': 'عن LocalServices',
+  'about.title': 'عن مساعد',
   'about.mission': 'مهمتنا',
   'contact.title': 'اتصل بنا',
   'services.title': 'جميع الخدمات',
@@ -100,11 +101,15 @@ export const arTranslations = {
   'availability.am': 'صباحًا',
   'availability.pm': 'مساءً',
   'footer.allRightsReserved': 'جميع الحقوق محفوظة',
-  'footer.developerCredit': 'تصميم وتطوير Elb3sho',
+  'footer.developerCredit': 'تصميم وتطوير إلبيشو',
   'footer.majorCities': 'المدن الكبرى',
   'footer.popularServices': 'الخدمات الشائعة',
   'footer.support': 'الدعم',
   'footer.contactUs': 'اتصل بنا',
+  'footer.about': 'من نحن',
+  'footer.contact': 'اتصل بنا',
+  'footer.privacy': 'الخصوصية',
+  'footer.terms': 'الشروط',
   'emergency.title': 'خدمة {serviceType} الطارئة',
   'emergency.assistance.title': 'هل تحتاج إلى مساعدة فورية؟',
   'emergency.assistance.description': 'فنيو الطوارئ لدينا على أهبة الاستعداد على مدار الساعة',
@@ -125,7 +130,7 @@ export const arTranslations = {
   'contact.phoneSupport': 'الدعم عبر الهاتف',
   'contact.instantResponse': 'استجابة فورية',
   'contact.professionalSupport': 'دعم احترافي',
-  'about.page.title': 'عن LocalServices',
+  'about.page.title': 'عن مساعد',
   'about.page.description': 'نحن المنصة الرائدة في الشرق الأوسط التي تربط العملاء بمحترفي الخدمات المحلية الموثوق بهم. منذ عام 2020، نعمل على جعل خدمات المنازل والأعمال في متناول الجميع وموثوقة وبأسعار معقولة.',
   'about.mission.title': 'مهمتنا',
   'about.mission.text': 'تحويل طريقة وصول الأشخاص إلى الخدمات المحلية من خلال إنشاء سوق موثوق وفعال وشفاف يفيد كلاً من العملاء ومحترفي الخدمات في جميع أنحاء منطقة الشرق الأوسط.',
@@ -163,7 +168,11 @@ export const arTranslations = {
   'features.reliable.description': 'محترفون تم فحص خلفياتهم يمكنك الوثوق بهم في منزلك أو عملك',
   'features.affordable.title': 'أسعار تنافسية',
   'features.affordable.description': 'أسعار شفافة ومقدمة مسبقاً بدون رسوم خفية أو مفاجآت',
-  'meta.homepage.title': 'LocalServices - ابحث عن خدمات محلية موثوقة في الشرق الأوسط | السعودية، الإمارات، الكويت، مصر',
+  'meta.homepage.title': 'مساعد - ابحث عن خدمات محلية موثوقة في الشرق الأوسط | السعودية، الإمارات، الكويت، مصر',
   'meta.homepage.description': 'تواصل مع محترفين محليين معتمدين لخدمات المنزل والأعمال عبر السعودية والإمارات والكويت ومصر. احصل على عروض أسعار فورية للتنظيف والصيانة والإصلاحات والمزيد.',
-  'meta.keywords': 'خدمات محلية، خدمات منزلية، صيانة، تنظيف، إصلاحات، السعودية، الإمارات، الكويت، مصر، خدمات مهنية، فنيين معتمدين'
+  'meta.keywords': 'خدمات محلية، خدمات منزلية، صيانة، تنظيف، إصلاحات، السعودية، الإمارات، الكويت، مصر، خدمات مهنية، فنيين معتمدين',
+  'trust.customers': 'عملاء راضين',
+  'trust.satisfaction': 'نسبة الرضا',
+  'trust.support': 'دعم مستمر',
+  'trust.experience': 'سنوات خبرة'
 };
