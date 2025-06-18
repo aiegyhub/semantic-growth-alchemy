@@ -1,4 +1,3 @@
-
 export const enTranslations = {
   // --- Basic Keys ---
   'nav.home': 'Home',
@@ -143,5 +142,28 @@ export const enTranslations = {
   'about.values.support.title': '24/7 Support',
   'about.values.support.description': 'Our customer support team is available around the clock to assist with any questions or concerns.',
   'toast.requestSuccess.title': 'Your request has been received!',
-  'toast.requestSuccess.description': 'We will contact you as soon as possible.'
+  'toast.requestSuccess.description': 'We will contact you as soon as possible.',
+  
+  // Additional SEO and content keys
+  'about.stats.title': 'Trusted by Thousands',
+  'about.stats.description': 'Join thousands of satisfied customers who trust us for their local service needs',
+  'hero.cta.primary': 'Find Services Now',
+  'hero.cta.secondary': 'Call for Immediate Help',
+  'services.categories.title': 'Service Categories',
+  'services.categories.description': 'Browse our comprehensive range of professional services',
+  'testimonials.title': 'What Our Customers Say',
+  'testimonials.subtitle': 'Real experiences from real customers across the Middle East',
+  'coverage.title': 'Service Coverage',
+  'coverage.description': 'Professional services available in major cities across 4 countries',
+  'features.professional.title': 'Professional Service',
+  'features.professional.description': 'All our service providers are verified professionals with years of experience',
+  'features.quick.title': 'Quick Response',
+  'features.quick.description': 'Get connected with local professionals within minutes, not hours',
+  'features.reliable.title': 'Reliable & Trustworthy',
+  'features.reliable.description': 'Background-checked professionals you can trust in your home or business',
+  'features.affordable.title': 'Competitive Pricing',
+  'features.affordable.description': 'Transparent, upfront pricing with no hidden fees or surprises',
+  'meta.homepage.title': 'LocalServices - Find Trusted Local Services in Middle East | Saudi Arabia, UAE, Kuwait, Egypt',
+  'meta.homepage.description': 'Connect with verified local professionals for home and business services across Saudi Arabia, UAE, Kuwait, and Egypt. Get instant quotes for cleaning, maintenance, repairs, and more.',
+  'meta.keywords': 'local services, home services, maintenance, cleaning, repairs, Saudi Arabia, UAE, Kuwait, Egypt, professional services, verified technicians'
 };

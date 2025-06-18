@@ -1,6 +1,7 @@
 
 import { Country, Service } from '@/types';
 import HeroSection from '@/components/HeroSection';
+import StatsSection from '@/components/StatsSection';
 import CountriesSection from '@/components/CountriesSection';
 import PopularServicesSection from '@/components/PopularServicesSection';
 import PlatformFeaturesSection from '@/components/PlatformFeaturesSection';
@@ -14,6 +15,7 @@ export default function LandingPage({ countries, popularServices }: LandingPageP
   return (
     <div>
       <HeroSection />
+      <StatsSection />
       <CountriesSection countries={countries} />
       <PopularServicesSection services={popularServices} />
       <PlatformFeaturesSection />
