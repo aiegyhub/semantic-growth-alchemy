@@ -1,4 +1,3 @@
-
 import { Service, City, Country, ServiceCategory } from '@/types';
 
 // SEO data structure
@@ -77,7 +76,7 @@ export function generateServiceSchema(service: Service, city: City, country: Cou
     "@type": "Service",
     "name": service.name,
     "description": service.description.short,
-    "serviceType": service.category,
+    "serviceType": service.categoryId,
     "provider": {
       "@type": "Organization",
       "name": "LocalServices",
@@ -96,7 +95,7 @@ export function generateServiceSchema(service: Service, city: City, country: Cou
       "@type": "Offer",
       "availability": "https://schema.org/InStock",
       "priceCurrency": country.currency || "SAR",
-      "priceRange": service.pricing?.onQuote ? "On Quote" : service.pricing?.startingFrom
+      "priceRange": service.pricing?.model === "quote" ? "On Quote" : service.pricing?.basePrice
     },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",

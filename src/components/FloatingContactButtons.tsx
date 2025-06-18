@@ -1,9 +1,10 @@
+
 import { Phone, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getCities, getCountries } from '@/lib/cms';
-import { City, Country } from '@/types';
+import { City } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext'; // ١. استيراد hook اللغة
 
 export default function FloatingContactButtons() {

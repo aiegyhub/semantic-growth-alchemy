@@ -3,12 +3,20 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Search, Loader2, TrendingUp, Target, Globe } from "lucide-react";
+
+interface AnalysisResults {
+  semanticScore: number;
+  entityDensity: number;
+  topicalAuthority: number;
+  contentRelevance: number;
+  entities: string[];
+  recommendations: string[];
+}
 
 export const SemanticAnalyzer = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState<AnalysisResults | null>(null);
   const [url, setUrl] = useState("");
   const [keyword, setKeyword] = useState("");
 
@@ -129,7 +137,7 @@ export const SemanticAnalyzer = () => {
                   <div className="bg-gray-700/30 rounded-lg p-6">
                     <h4 className="text-white font-semibold mb-3">Detected Entities</h4>
                     <div className="flex flex-wrap gap-2">
-                      {results.entities.map((entity, i) => (
+                      {results.entities.map((entity: string, i: number) => (
                         <span key={i} className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">
                           {entity}
                         </span>
@@ -140,7 +148,7 @@ export const SemanticAnalyzer = () => {
                   <div className="bg-gray-700/30 rounded-lg p-6">
                     <h4 className="text-white font-semibold mb-3">Optimization Recommendations</h4>
                     <ul className="space-y-2">
-                      {results.recommendations.map((rec, i) => (
+                      {results.recommendations.map((rec: string, i: number) => (
                         <li key={i} className="text-gray-300 flex items-start">
                           <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                           {rec}

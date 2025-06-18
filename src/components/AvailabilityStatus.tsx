@@ -69,7 +69,6 @@ export default function AvailabilityStatus({ serviceId, cityId }: AvailabilitySt
   }, [serviceId, cityId]);
 
   const getNextAvailableSlot = () => {
-    const now = new Date();
     const slots = ['Today 2:00 PM', 'Today 4:00 PM', 'Tomorrow 9:00 AM', 'Tomorrow 11:00 AM'];
     return slots[Math.floor(Math.random() * slots.length)];
   };

@@ -1,12 +1,11 @@
+
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star, Clock, Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { getServices, getServiceCategories } from '@/lib/cms';
-import { Service } from '@/types';
 import SEOHead from '@/components/SEOHead';
 import ServiceIcon from '@/components/ServiceIcon';
 
@@ -74,7 +73,6 @@ const CategoryPage = () => {
                     </div>
                     <p className="text-blue-100 mb-4 text-sm flex-grow">{language === 'ar' ? service.description.shortAr : service.description.short}</p>
                     <div className="mt-auto">
-                      {/* FIX: Updated link to the new unambiguous route */}
                       <Link to={`/services/item/${service.slug}`}><Button className="w-full bg-blue-600 hover:bg-blue-700">{t('button.viewDetails')}</Button></Link>
                     </div>
                   </CardContent>

@@ -1,10 +1,11 @@
+
 import { 
   House, AirVent, Wrench, Bolt, Bug, Trees, Building, Construction, Brush, Sofa, Wind, Fan, Cog,
-  FlaskRound, Plug, Lamp, Lightbulb, ShowerHead, Gauge, Heater, Paintbrush, Camera, Bell, DoorClosed,
-  Sprout, TreeDeciduous, LucideIcon, Scissors, Shield, Zap, Droplets, Hammer, Eye, Leaf, Trash2,
-  Settings, Lock, Car, Briefcase, Smartphone, Wifi, Monitor, Router, Server, BedDouble, BugOff, Bird,
+  Plug, Lightbulb, ShowerHead, Heater, Camera, Bell,
+  Sprout, LucideIcon, Scissors, Shield, Zap, Droplets, Hammer, Eye, Leaf, Trash2,
+  Settings, Lock, Car, Briefcase, Smartphone, Wifi, Router, Server, Bird,
   Waves, LayoutGrid, Grid, Home, Layers, ShieldCheck, PaintRoller, Gem, KeyRound, Truck,
-  Archive, Ruler, BringToFront, Video, Rat, SatelliteDish, Shirt // Removed 'Fridge'
+  Archive, Ruler, BringToFront, Video, Rat, SatelliteDish, Shirt
 } from 'lucide-react';
 
 interface ServiceIconProps {
@@ -55,7 +56,7 @@ const iconMap: Record<string, LucideIcon> = {
   carpentry: Hammer,
   'leak-detection': Waves,
   'water-tank': Droplets,
-  'appliance-repair': Cog, // FIX: Replaced non-existent 'Fridge' with 'Cog'
+  'appliance-repair': Cog,
   'washing-machine': Shirt,
   'tile-installation': LayoutGrid,
   'marble-polishing': Gem,
