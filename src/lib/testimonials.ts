@@ -102,9 +102,15 @@ export const mockTestimonials: Testimonial[] = [
   }
 ];
 
+// Export testimonials array for compatibility
+export const testimonials = mockTestimonials;
+
 export function getTestimonialsByService(serviceId: string): Testimonial[] {
   return mockTestimonials.filter(t => t.serviceId === serviceId);
 }
+
+// Add alias for ServiceId function
+export const getTestimonialsByServiceId = getTestimonialsByService;
 
 export function getTestimonialsByCity(city: string): Testimonial[] {
   return mockTestimonials.filter(t => t.city === city || t.cityEn === city);

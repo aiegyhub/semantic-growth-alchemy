@@ -1,3 +1,4 @@
+
 import { useMemo } from 'react';
 import Layout from '@/components/Layout';
 import Testimonials from '@/components/Testimonials';
@@ -65,7 +66,7 @@ const ServicePage = () => {
         </ol>
         <h4 className="text-lg font-semibold text-white mb-3">{isArabic ? 'المشاكل الشائعة التي نحلها' : 'Common Problems We Solve'}</h4>
         <ul className="list-disc list-inside space-y-2">
-          {(isArabic ? currentService.commonProblemsSolvedAr : currentService.commonProblemsSolved).map(problem => <li key={problem}>{problem}</li>)}
+          {(isArabic ? currentService.commonProblemsSolvedAr : currentService.commonProblemsSolved).map((problem: string) => <li key={problem}>{problem}</li>)}
         </ul>
       </div>
     );
@@ -113,7 +114,7 @@ const ServicePage = () => {
         </div>
       </div>
       
-      <div className="py-12 bg-blue-900/30"><Testimonials testimonials={testimonials.filter(t => t.serviceId === currentService.slug)} /></div>
+      <div className="py-12 bg-blue-900/30"><Testimonials testimonials={testimonials.filter((t: any) => t.serviceId === currentService.slug)} /></div>
       
       {relatedServices.length > 0 && (
         <section className="py-12"><h2 className="text-3xl font-bold text-white text-center mb-8">{t('service.related')}</h2><RelatedServices services={relatedServices} city={currentCity} country={countrySlug || ''} language={language} /></section>
