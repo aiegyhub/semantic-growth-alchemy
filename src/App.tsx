@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HelmetProvider } from 'react-helmet-async';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -34,37 +35,39 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/services" element={<ServicesListPage />} />
-            <Route path="/services/category/:categorySlug" element={<CategoryPage />} />
-            <Route path="/services/item/:serviceSlug" element={<GenericServicePage />} />
-            <Route path="/services/:serviceSlug" element={<GenericServicePage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-conditions" element={<TermsConditions />} />
-            <Route path="/sitemap" element={<Sitemap />} />
-            
-            {/* Country routes */}
-            <Route path="/sa" element={<SaudiArabia />} />
-            <Route path="/ae" element={<UAE />} />
-            <Route path="/kw" element={<Kuwait />} />
-            <Route path="/eg" element={<Egypt />} />
-            
-            {/* City and service routes */}
-            <Route path="/:countrySlug/:citySlug" element={<CityPage />} />
-            <Route path="/:countrySlug/:citySlug/:serviceSlug" element={<ServicePage />} />
-            
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Toaster />
-        </Router>
-      </LanguageProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <LanguageProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/services" element={<ServicesListPage />} />
+              <Route path="/services/category/:categorySlug" element={<CategoryPage />} />
+              <Route path="/services/item/:serviceSlug" element={<GenericServicePage />} />
+              <Route path="/services/:serviceSlug" element={<GenericServicePage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-conditions" element={<TermsConditions />} />
+              <Route path="/sitemap" element={<Sitemap />} />
+              
+              {/* Country routes */}
+              <Route path="/sa" element={<SaudiArabia />} />
+              <Route path="/ae" element={<UAE />} />
+              <Route path="/kw" element={<Kuwait />} />
+              <Route path="/eg" element={<Egypt />} />
+              
+              {/* City and service routes */}
+              <Route path="/:countrySlug/:citySlug" element={<CityPage />} />
+              <Route path="/:countrySlug/:citySlug/:serviceSlug" element={<ServicePage />} />
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Toaster />
+          </Router>
+        </LanguageProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

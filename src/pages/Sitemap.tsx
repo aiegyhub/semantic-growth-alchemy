@@ -26,6 +26,7 @@ export default function Sitemap() {
       ? ['خريطة الموقع', 'مساعد', 'خدمات محلية', 'صفحات الموقع']
       : ['sitemap', 'musaaed', 'local services', 'website pages'],
     canonical: '/sitemap',
+    author: 'Musaaed',
     schemaMarkup: [
       generateOrganizationSchema(),
       {
@@ -35,7 +36,11 @@ export default function Sitemap() {
         "description": isArabic 
           ? 'خريطة شاملة لجميع صفحات موقع مساعد للخدمات المحلية' 
           : 'Complete sitemap of all Musaaed local services pages',
-        "url": "https://musaaed.com/sitemap"
+        "url": "https://musaaed.com/sitemap",
+        "author": {
+          "@type": "Organization",
+          "name": "Musaaed"
+        }
       }
     ]
   };
@@ -173,7 +178,7 @@ export default function Sitemap() {
                   {services.filter(s => s.isActive).map((service) => (
                     <Link
                       key={service.id}
-                      to={`/services/${service.slug}`}
+                      to={`/services/item/${service.slug}`}
                       className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
                     >
                       <span className="text-blue-300 hover:text-white">
