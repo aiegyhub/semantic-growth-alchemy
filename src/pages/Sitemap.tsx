@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { Globe, MapPin, Wrench, FileText, Phone, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { generateOrganizationSchema } from '@/lib/seo';
 
 export default function Sitemap() {
   const { language } = useLanguage();
@@ -22,9 +23,21 @@ export default function Sitemap() {
       ? 'خريطة شاملة لجميع صفحات موقع مساعد للخدمات المحلية' 
       : 'Complete sitemap of all Musaaed local services pages',
     keywords: isArabic 
-      ? 'خريطة الموقع، مساعد، خدمات محلية، صفحات الموقع'
-      : 'sitemap, musaaed, local services, website pages',
-    ogImage: '/images/sitemap-og.jpg'
+      ? ['خريطة الموقع', 'مساعد', 'خدمات محلية', 'صفحات الموقع']
+      : ['sitemap', 'musaaed', 'local services', 'website pages'],
+    canonical: '/sitemap',
+    schemaMarkup: [
+      generateOrganizationSchema(),
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": isArabic ? 'خريطة الموقع - مساعد' : 'Sitemap - Musaaed',
+        "description": isArabic 
+          ? 'خريطة شاملة لجميع صفحات موقع مساعد للخدمات المحلية' 
+          : 'Complete sitemap of all Musaaed local services pages',
+        "url": "https://musaaed.com/sitemap"
+      }
+    ]
   };
 
   const staticPages = [
