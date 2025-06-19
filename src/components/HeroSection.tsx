@@ -41,34 +41,38 @@ export default function HeroSection() {
             href="tel:+966111234567" 
             className="flex items-center space-x-3 text-white bg-blue-600 hover:bg-blue-700 px-6 py-4 rounded-lg transition-all duration-300 w-full sm:w-auto justify-center font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            <Phone className="w-5 h-5" />
-            <span>{t('hero.call')} +966-111-234567</span>
+            <Phone className="w-6 h-6" />
+            <span>{t('button.contact')}</span>
           </a>
           <div className="flex items-center space-x-3 text-white bg-green-600/80 px-6 py-4 rounded-lg w-full sm:w-auto justify-center">
-            <Clock className="w-5 h-5" />
+            <Clock className="w-6 h-6" />
             <span className="font-medium">{t('hero.available247')}</span>
           </div>
         </div>
 
-        {/* Service Coverage */}
+        {/* Service Coverage - Improved country icons */}
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-3xl mx-auto">
           <h2 className="text-xl font-semibold text-white mb-4">{t('countries.availableIn')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-blue-100">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white">🇸🇦</div>
-              <p className="mt-1 text-sm font-medium">{t('nav.saudi')}</p>
+            <div className="text-center bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+              <div className="text-3xl mb-2">🏰</div>
+              <p className="text-sm font-medium text-white">{t('nav.saudi')}</p>
+              <p className="text-xs text-blue-200">المملكة العربية السعودية</p>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white">🇦🇪</div>
-              <p className="mt-1 text-sm font-medium">{t('nav.uae')}</p>
+            <div className="text-center bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+              <div className="text-3xl mb-2">🌊</div>
+              <p className="text-sm font-medium text-white">{t('nav.uae')}</p>
+              <p className="text-xs text-blue-200">الإمارات العربية المتحدة</p>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white">🇰🇼</div>
-              <p className="mt-1 text-sm font-medium">{t('nav.kuwait')}</p>
+            <div className="text-center bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+              <div className="text-3xl mb-2">🕌</div>
+              <p className="text-sm font-medium text-white">{t('nav.kuwait')}</p>
+              <p className="text-xs text-blue-200">دولة الكويت</p>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white">🇪🇬</div>
-              <p className="mt-1 text-sm font-medium">{t('nav.egypt')}</p>
+            <div className="text-center bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
+              <div className="text-3xl mb-2">🏛️</div>
+              <p className="text-sm font-medium text-white">{t('nav.egypt')}</p>
+              <p className="text-xs text-blue-200">جمهورية مصر العربية</p>
             </div>
           </div>
         </div>
