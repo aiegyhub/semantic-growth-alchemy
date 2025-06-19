@@ -64,15 +64,15 @@ export default function FloatingOffersButton() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Button - نقل إلى الشمال */}
       <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
         <Button
           onClick={() => setIsOpen(true)}
           className="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-full p-4 shadow-lg animate-pulse"
           size="lg"
         >
-          <Gift className="w-6 h-6" />
-          <span className={`ml-2 font-bold ${isArabic ? 'mr-2 ml-0' : ''}`}>
+          <Gift className="w-7 h-7" />
+          <span className={`font-bold text-lg ${isArabic ? 'mr-2 ml-0' : 'ml-2'}`}>
             {isArabic ? 'العروض' : 'Offers'}
           </span>
         </Button>
@@ -87,9 +87,9 @@ export default function FloatingOffersButton() {
             onClick={() => setIsOpen(false)}
           />
           
-          {/* Sidebar */}
-          <div className={`relative bg-white h-full w-96 shadow-xl overflow-y-auto ${
-            isArabic ? 'mr-auto' : 'ml-auto'
+          {/* Sidebar - محسن للعرض من الشمال */}
+          <div className={`relative bg-white h-full w-96 shadow-xl overflow-y-auto transform transition-transform duration-300 ${
+            isArabic ? 'mr-auto translate-x-0' : 'ml-0 translate-x-0'
           }`}>
             <div className="p-6">
               {/* Header */}
@@ -103,31 +103,31 @@ export default function FloatingOffersButton() {
                   onClick={() => setIsOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </Button>
               </div>
 
               {/* Offers List */}
               <div className="space-y-4">
                 {mockOffers.map((offer) => (
-                  <Card key={offer.id} className="border-l-4 border-l-red-500 hover:shadow-md transition-shadow">
+                  <Card key={offer.id} className="border-l-4 border-l-red-500 hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
                         <CardTitle className="text-lg text-gray-900">
                           {isArabic ? offer.titleAr : offer.titleEn}
                         </CardTitle>
                         <div className="flex items-center gap-2">
-                          <span className="bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold">
+                          <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
                             {offer.discount}
                           </span>
                           {offer.isUrgent && (
-                            <Clock className="w-4 h-4 text-orange-500" />
+                            <Clock className="w-5 h-5 text-orange-500" />
                           )}
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-gray-600 mb-3">
+                      <p className="text-gray-600 mb-3 leading-relaxed">
                         {isArabic ? offer.descriptionAr : offer.descriptionEn}
                       </p>
                       
@@ -144,7 +144,7 @@ export default function FloatingOffersButton() {
                         </span>
                         <Button 
                           size="sm" 
-                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm"
                         >
                           {isArabic ? 'احجز الآن' : 'Book Now'}
                         </Button>
@@ -155,7 +155,7 @@ export default function FloatingOffersButton() {
               </div>
 
               {/* Footer */}
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg border">
                 <div className="flex items-center gap-2 mb-2">
                   <Star className="w-5 h-5 text-yellow-500" />
                   <span className="font-semibold text-gray-900">
