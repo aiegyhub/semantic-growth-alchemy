@@ -11,9 +11,9 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 relative">
         {children}
       </main>
       <Footer />
