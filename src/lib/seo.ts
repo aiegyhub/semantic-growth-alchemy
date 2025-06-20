@@ -275,6 +275,18 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#faq`,
+    name: `${serviceName} - الأسئلة الشائعة`,
+    description: `الأسئلة الشائعة حول خدمة ${serviceName} في ${cityName}`,
+    url: `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}`,
+    inLanguage: language,
+    isPartOf: {
+      "@type": "WebSite", 
+      name: "Musaaed",
+      url: "https://musaaed.com"
+    },
+    about: {
+      "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#service`
+    },
     mainEntity: service.faqs.map((faq: any) => ({
       "@type": "Question",
       name: isArabic ? faq.questionAr : faq.question,

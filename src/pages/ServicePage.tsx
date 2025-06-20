@@ -1,3 +1,4 @@
+
 import { useMemo } from 'react';
 import Layout from '@/components/Layout';
 import Testimonials from '@/components/Testimonials';
@@ -25,7 +26,6 @@ const ServicePage = () => {
     currentCountry,
     currentCity,
     currentService,
-    currentCategory,
     countrySlug,
   } = usePageData();
 

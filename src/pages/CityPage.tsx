@@ -1,3 +1,4 @@
+
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -13,7 +14,6 @@ import ServiceIcon from '@/components/ServiceIcon';
 const CityPage = () => {
   const { language, t } = useLanguage();
   
-  // All complex data fetching and processing is now handled by the hook.
   const { 
     isLoading, 
     services, 
@@ -24,7 +24,6 @@ const CityPage = () => {
     citySlug
   } = usePageData();
 
-  // The component only needs to perform the final filtering specific to its needs.
   const availableServices = useMemo(() => {
     if (!currentCity) return [];
     return services.filter(s => s.availableCityIds.includes(currentCity.id) && s.isActive);
@@ -38,7 +37,7 @@ const CityPage = () => {
     return (<Layout><div className="min-h-screen flex items-center justify-center"><div className="text-white text-xl">{t('city.notFound')}</div></div></Layout>);
   }
 
-  const seoData = generateCityPageSEO(currentCity, currentCountry, availableServices, language);
+  const seoData = generateCityPageSEO(currentCity, currentCountry, language);
   const getCategoryById = (id: string) => serviceCategories.find(c => c.id === id);
 
   return (
