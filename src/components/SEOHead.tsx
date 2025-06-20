@@ -4,12 +4,15 @@ import { Helmet } from 'react-helmet-async';
 interface SEOData {
   title: string;
   description: string;
-  keywords: string;
+  keywords: string[];
   ogTitle: string;
   ogDescription: string;
   ogImage: string;
+  canonical: string;
   canonicalUrl?: string;
   hreflang?: Array<{ lang: string; url: string }>;
+  author?: string;
+  schemaMarkup?: any;
 }
 
 interface SEOHeadProps {
@@ -26,8 +29,8 @@ export default function SEOHead({ seoData, language }: SEOHeadProps) {
       <html lang={language} dir={isArabic ? 'rtl' : 'ltr'} />
       <title>{seoData.title}</title>
       <meta name="description" content={seoData.description} />
-      <meta name="keywords" content={seoData.keywords} />
-      <meta name="author" content="musaaed" />
+      <meta name="keywords" content={seoData.keywords.join(', ')} />
+      <meta name="author" content={seoData.author || "musaaed"} />
       <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       
@@ -51,9 +54,7 @@ export default function SEOHead({ seoData, language }: SEOHeadProps) {
       <meta property="article:publisher" content="مساعد الخدمات" />
       
       {/* Canonical URL */}
-      {seoData.canonicalUrl && (
-        <link rel="canonical" href={seoData.canonicalUrl} />
-      )}
+      <link rel="canonical" href={seoData.canonicalUrl || seoData.canonical} />
       
       {/* Hreflang */}
       {seoData.hreflang && seoData.hreflang.map((link, index) => (
@@ -64,44 +65,53 @@ export default function SEOHead({ seoData, language }: SEOHeadProps) {
       <meta name="theme-color" content="#1e40af" />
       <meta name="msapplication-TileColor" content="#1e40af" />
       
-      {/* Schema.org Local Business */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "مساعد الخدمات - Service Helper",
-          "description": "منصة رائدة لربط العملاء بمقدمي الخدمات المنزلية المعتمدين",
-          "url": "https://servicehelper.com",
-          "telephone": "+966111234567",
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "SA",
-            "addressRegion": "Riyadh"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "24.7136",
-            "longitude": "46.6753"
-          },
-          "openingHours": "Mo-Su 00:00-23:59",
-          "priceRange": "$$",
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "1250",
-            "bestRating": "5",
-            "worstRating": "1"
-          },
-          "areaServed": ["SA", "AE", "KW", "EG"],
-          "serviceType": [
-            "تنظيف مكيفات",
-            "سباكة طارئة", 
-            "صيانة كهرباء",
-            "تنظيف منازل",
-            "مكافحة حشرات"
-          ]
-        })}
-      </script>
+      {/* Schema.org structured data */}
+      {seoData.schemaMarkup && (
+        <script type="application/ld+json">
+          {JSON.stringify(Array.isArray(seoData.schemaMarkup) ? seoData.schemaMarkup : [seoData.schemaMarkup])}
+        </script>
+      )}
+      
+      {/* Default Local Business Schema if no specific schema provided */}
+      {!seoData.schemaMarkup && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "مساعد الخدمات - Service Helper",
+            "description": "منصة رائدة لربط العملاء بمقدمي الخدمات المنزلية المعتمدين",
+            "url": "https://musaaed.com",
+            "telephone": "+966111234567",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "SA",
+              "addressRegion": "Riyadh"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "24.7136",
+              "longitude": "46.6753"
+            },
+            "openingHours": "Mo-Su 00:00-23:59",
+            "priceRange": "$$",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1250",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "areaServed": ["SA", "AE", "KW", "EG"],
+            "serviceType": [
+              "تنظيف مكيفات",
+              "سباكة طارئة", 
+              "صيانة كهرباء",
+              "تنظيف منازل",
+              "مكافحة حشرات"
+            ]
+          })}
+        </script>
+      )}
     </Helmet>
   );
 }

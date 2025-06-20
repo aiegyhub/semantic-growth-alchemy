@@ -42,6 +42,9 @@ const CategoryPage = () => {
     description: `Browse all our ${categoryName} services. Find experts for ${categoryServices.map(s => s.name).join(', ')}.`,
     keywords: [categoryName, ...categoryServices.flatMap(s => s.keywords)],
     canonical: `/services/category/${currentCategory.slug}`,
+    ogTitle: `${categoryName} | ${t('nav.services')}`,
+    ogDescription: `Browse all our ${categoryName} services. Find experts for ${categoryServices.map(s => s.name).join(', ')}.`,
+    ogImage: `https://musaaed.com/images/categories/${currentCategory.slug}-og.jpg`,
     schemaMarkup: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",

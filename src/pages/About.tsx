@@ -31,6 +31,9 @@ const About = () => {
     description: t('about.page.description'),
     keywords: ['about LocalServices', 'local services company', 'verified professionals', 'Middle East services'],
     canonical: '/about',
+    ogTitle: t('about.page.title'),
+    ogDescription: t('about.page.description'),
+    ogImage: 'https://musaaed.com/og-about.jpg',
     schemaMarkup: {
       "@context": "https://schema.org",
       "@type": "AboutPage",

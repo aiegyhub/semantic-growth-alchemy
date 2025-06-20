@@ -36,6 +36,33 @@ export interface OrganizationSchema {
   };
 }
 
+export const generateOrganizationSchema = (): OrganizationSchema => ({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Musaaed",
+  description: "Leading home and business services platform in the Middle East",
+  url: "https://musaaed.com",
+  logo: "https://musaaed.com/logo.png",
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+966-11-123-4567",
+    contactType: "Customer Service",
+    areaServed: ["SA", "AE", "KW", "EG"],
+    availableLanguage: ["Arabic", "English"]
+  },
+  sameAs: [
+    "https://facebook.com/musaaed",
+    "https://twitter.com/musaaed",
+    "https://instagram.com/musaaed"
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "SA",
+    addressRegion: "Riyadh Province",
+    addressLocality: "Riyadh"
+  }
+});
+
 export const generateHomepageSEO = (language: string): SEOData => {
   const isArabic = language === 'ar';
   
@@ -44,32 +71,7 @@ export const generateHomepageSEO = (language: string): SEOData => {
     ? 'منصة مساعد الرائدة لخدمات المنازل والشركات في الشرق الأوسط. احصل على خدمات التكييف، السباكة، الكهرباء، التنظيف وأكثر بجودة عالية وأسعار مناسبة.'
     : 'Leading home and business services platform in the Middle East. Get quality AC, plumbing, electrical, cleaning services and more at competitive prices.';
 
-  const organizationSchema: OrganizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Musaaed",
-    description: description,
-    url: "https://musaaed.com",
-    logo: "https://musaaed.com/logo.png",
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+966-11-123-4567",
-      contactType: "Customer Service",
-      areaServed: ["SA", "AE", "KW", "EG"],
-      availableLanguage: ["Arabic", "English"]
-    },
-    sameAs: [
-      "https://facebook.com/musaaed",
-      "https://twitter.com/musaaed",
-      "https://instagram.com/musaaed"
-    ],
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "SA",
-      addressRegion: "Riyadh Province",
-      addressLocality: "Riyadh"
-    }
-  };
+  const organizationSchema = generateOrganizationSchema();
 
   const webPageSchema = {
     "@context": "https://schema.org",
@@ -82,6 +84,9 @@ export const generateHomepageSEO = (language: string): SEOData => {
       "@type": "WebSite",
       name: "Musaaed",
       url: "https://musaaed.com"
+    },
+    about: {
+      "@id": "https://musaaed.com#organization"
     }
   };
 
@@ -99,7 +104,7 @@ export const generateHomepageSEO = (language: string): SEOData => {
   };
 };
 
-export const generateCityPageSEO = (city: City, country: Country, services: Service[], language: string): SEOData => {
+export const generateCityPageSEO = (city: City, country: Country, language: string): SEOData => {
   const isArabic = language === 'ar';
   const cityName = isArabic ? city.nameAr : city.name;
   const countryName = isArabic ? country.nameAr : country.name;
@@ -115,6 +120,7 @@ export const generateCityPageSEO = (city: City, country: Country, services: Serv
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": `https://musaaed.com/${country.slug}/${city.slug}#localbusiness`,
     name: `Musaaed ${cityName}`,
     description: description,
     address: {
@@ -136,6 +142,27 @@ export const generateCityPageSEO = (city: City, country: Country, services: Serv
         longitude: city.coordinates?.lng || 0
       },
       geoRadius: "50000"
+    },
+    parentOrganization: {
+      "@id": "https://musaaed.com#organization"
+    }
+  };
+
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `https://musaaed.com/${country.slug}/${city.slug}#webpage`,
+    name: title,
+    description: description,
+    url: `https://musaaed.com/${country.slug}/${city.slug}`,
+    inLanguage: language,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Musaaed",
+      url: "https://musaaed.com"
+    },
+    about: {
+      "@id": `https://musaaed.com/${country.slug}/${city.slug}#localbusiness`
     }
   };
 
@@ -174,11 +201,11 @@ export const generateCityPageSEO = (city: City, country: Country, services: Serv
     ogTitle: title,
     ogDescription: description,
     ogImage: `https://musaaed.com/images/cities/${city.slug}-og.jpg`,
-    schemaMarkup: [localBusinessSchema, breadcrumbSchema]
+    schemaMarkup: [localBusinessSchema, webPageSchema, breadcrumbSchema]
   };
 };
 
-export const generateServicePageSEO = (service: Service, city: City, country: Country, category: ServiceCategory, language: string): SEOData => {
+export const generateServicePageSEO = (service: Service, city: City, country: Country, language: string): SEOData => {
   const isArabic = language === 'ar';
   const serviceName = isArabic ? service.nameAr : service.name;
   const cityName = isArabic ? city.nameAr : city.name;
@@ -195,10 +222,12 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#service`,
     name: serviceName,
     description: isArabic ? service.description.longAr : service.description.long,
     provider: {
       "@type": "LocalBusiness",
+      "@id": `https://musaaed.com/${country.slug}/${city.slug}#localbusiness`,
       name: `Musaaed ${cityName}`,
       telephone: city.phoneNumbers[0],
       address: {
@@ -223,9 +252,28 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
     }
   };
 
-  const faqSchema = {
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#webpage`,
+    name: title,
+    description: description,
+    url: `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}`,
+    inLanguage: language,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Musaaed",
+      url: "https://musaaed.com"
+    },
+    about: {
+      "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#service`
+    }
+  };
+
+  const faqSchema = service.faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}#faq`,
     mainEntity: service.faqs.map((faq: any) => ({
       "@type": "Question",
       name: isArabic ? faq.questionAr : faq.question,
@@ -234,7 +282,7 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
         text: isArabic ? faq.answerAr : faq.answer
       }
     }))
-  };
+  } : null;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -267,6 +315,9 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
     ]
   };
 
+  const schemas = [serviceSchema, webPageSchema, breadcrumbSchema];
+  if (faqSchema) schemas.push(faqSchema);
+
   return {
     title,
     description,
@@ -277,6 +328,6 @@ export const generateServicePageSEO = (service: Service, city: City, country: Co
     ogTitle: title,
     ogDescription: description,
     ogImage: `https://musaaed.com/images/services/${service.slug}-og.jpg`,
-    schemaMarkup: [serviceSchema, faqSchema, breadcrumbSchema]
+    schemaMarkup: schemas
   };
 };
