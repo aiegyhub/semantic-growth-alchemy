@@ -1,4 +1,3 @@
-
 import { useMemo } from 'react';
 import Layout from '@/components/Layout';
 import Testimonials from '@/components/Testimonials';
@@ -87,11 +86,11 @@ const ServicePage = () => {
     return (<Layout><div className="min-h-screen flex items-center justify-center"><div className="text-white text-xl">{t('loading')}</div></div></Layout>);
   }
 
-  if (!currentService || !currentCity || !currentCountry || !currentCategory) {
+  if (!currentService || !currentCity || !currentCountry) {
     return (<Layout><div className="min-h-screen flex items-center justify-center"><div className="text-white text-xl">{t('service.notFound')}</div></div></Layout>);
   }
   
-  const seoData = generateServicePageSEO(currentService, currentCity, currentCountry, currentCategory, language);
+  const seoData = generateServicePageSEO(currentService, currentCity, currentCountry, language);
   const serviceImage = `/images/services/${currentService.slug}.jpg`;
 
   return (

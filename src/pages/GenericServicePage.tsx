@@ -1,4 +1,3 @@
-
 import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -14,8 +13,8 @@ import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import { getTestimonialsByServiceId, getAverageRating } from '@/lib/testimonials';
 
 const GenericServicePage = () => {
-  const { serviceSlug } = useParams();
   const { language, t } = useLanguage();
+  const { serviceSlug } = useParams<{ serviceSlug: string }>();
   
   const { 
     isLoading, 
@@ -78,16 +77,21 @@ const GenericServicePage = () => {
     );
   }
 
+  const serviceName = language === 'ar' ? currentService.nameAr : currentService.name;
+
   const seoData = {
-    title: `${language === 'ar' ? currentService.nameAr : currentService.name} - ${t('nav.services')}`,
-    description: language === 'ar' ? currentService.description.shortAr : currentService.description.short,
-    keywords: [language === 'ar' ? currentService.nameAr : currentService.name, t('nav.services'), 'خدمات', 'صيانة', 'إصلاح'],
-    canonical: `/services/item/${currentService.slug}`,
+    title: `${serviceName} | ${t('nav.services')}`,
+    description: `Professional ${serviceName} services across the Middle East. Find certified technicians for quality ${serviceName} solutions.`,
+    keywords: [serviceName, 'professional service', 'Middle East', 'certified technicians'],
+    canonical: `/services/item/${serviceSlug}`,
+    ogTitle: `${serviceName} | ${t('nav.services')}`,
+    ogDescription: `Professional ${serviceName} services across the Middle East. Find certified technicians for quality ${serviceName} solutions.`,
+    ogImage: `https://musaaed.com/images/services/${serviceSlug}-og.jpg`,
     schemaMarkup: {
       "@context": "https://schema.org",
       "@type": "Service",
-      "name": language === 'ar' ? currentService.nameAr : currentService.name,
-      "description": language === 'ar' ? currentService.description.shortAr : currentService.description.short
+      name: serviceName,
+      description: `Professional ${serviceName} services across the Middle East.`,
     }
   };
 

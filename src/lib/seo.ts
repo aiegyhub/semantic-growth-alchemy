@@ -1,5 +1,5 @@
 
-import { Service, City, Country, ServiceCategory } from '@/types';
+import { Service, City, Country } from '@/types';
 
 export interface SEOData {
   title: string;
@@ -76,6 +76,7 @@ export const generateHomepageSEO = (language: string): SEOData => {
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": "https://musaaed.com#webpage",
     name: title,
     description: description,
     url: "https://musaaed.com",
