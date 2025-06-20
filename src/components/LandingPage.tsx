@@ -7,9 +7,7 @@ import PopularServicesSection from '@/components/PopularServicesSection';
 import OffersSection from '@/components/OffersSection';
 import InteractiveMap from '@/components/InteractiveMap';
 import PlatformFeaturesSection from '@/components/PlatformFeaturesSection';
-import ImprovedTestimonialsCar
-
-ousel from '@/components/ImprovedTestimonialsCarousel';
+import ImprovedTestimonialsCarousel from '@/components/ImprovedTestimonialsCarousel';
 import ContentOptimizationSection from '@/components/ContentOptimizationSection';
 import BlogSection from '@/components/BlogSection';
 import OffersSidebar from '@/components/OffersSidebar';
