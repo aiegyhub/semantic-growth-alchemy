@@ -16,19 +16,6 @@ const CustomServiceIcon: React.FC<CustomServiceIconProps> = ({
   const getServiceIcon = (service: string) => {
     const normalizedService = service.toLowerCase().replace(/[^a-z]/g, '');
     
-    const iconStyle = {
-      width: size,
-      height: size,
-      borderRadius: '12px',
-      padding: '8px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-      transition: 'all 0.3s ease'
-    };
-
     // Custom SVG icons for different services
     const icons: Record<string, JSX.Element> = {
       'acservices': (
@@ -95,19 +82,17 @@ const CustomServiceIcon: React.FC<CustomServiceIconProps> = ({
     <div 
       className={`service-icon ${className}`}
       style={{
-        ...{
-          width: size,
-          height: size,
-          borderRadius: '12px',
-          padding: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-          transition: 'all 0.3s ease',
-          cursor: 'pointer'
-        }
+        width: size,
+        height: size,
+        borderRadius: '12px',
+        padding: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        transition: 'all 0.3s ease',
+        cursor: 'pointer'
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-2px)';
