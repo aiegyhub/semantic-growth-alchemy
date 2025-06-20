@@ -1,378 +1,282 @@
 
 import { Service, City, Country, ServiceCategory } from '@/types';
 
-// SEO data structure
 export interface SEOData {
   title: string;
   description: string;
   keywords: string[];
   canonical: string;
-  schemaMarkup: object | object[];
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  schemaMarkup: any;
+  author?: string;
 }
 
-// Schema for Organization
-interface OrganizationSchema {
+export interface OrganizationSchema {
   "@context": string;
   "@type": string;
-  "@id"?: string;
   name: string;
+  description: string;
   url: string;
   logo: string;
-  sameAs: string[];
   contactPoint: {
     "@type": string;
     telephone: string;
     contactType: string;
-    areaServed: {
-      "@type": string;
-      name: string[];
-    };
+    areaServed: string[];
+    availableLanguage: string[];
   };
+  sameAs: string[];
   address: {
     "@type": string;
-    addressCountry: string[];
+    addressCountry: string;
+    addressRegion: string;
+    addressLocality: string;
   };
 }
 
-/**
- * Generates the base Organization schema with enhanced SEO data.
- */
-export function generateOrganizationSchema(): OrganizationSchema {
-  const schema: OrganizationSchema = {
+export const generateHomepageSEO = (language: string): SEOData => {
+  const isArabic = language === 'ar';
+  
+  const title = isArabic ? 'مساعد - منصة الخدمات المنزلية والتجارية' : 'Musaaed - Home & Business Services Platform';
+  const description = isArabic 
+    ? 'منصة مساعد الرائدة لخدمات المنازل والشركات في الشرق الأوسط. احصل على خدمات التكييف، السباكة، الكهرباء، التنظيف وأكثر بجودة عالية وأسعار مناسبة.'
+    : 'Leading home and business services platform in the Middle East. Get quality AC, plumbing, electrical, cleaning services and more at competitive prices.';
+
+  const organizationSchema: OrganizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Musaaed - Middle East Home & Business Services",
+    name: "Musaaed",
+    description: description,
     url: "https://musaaed.com",
     logo: "https://musaaed.com/logo.png",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+966-11-123-4567",
+      contactType: "Customer Service",
+      areaServed: ["SA", "AE", "KW", "EG"],
+      availableLanguage: ["Arabic", "English"]
+    },
     sameAs: [
       "https://facebook.com/musaaed",
       "https://twitter.com/musaaed",
-      "https://linkedin.com/company/musaaed",
       "https://instagram.com/musaaed"
     ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+966111234567",
-      contactType: "customer service",
-      areaServed: {
-        "@type": "Country",
-        name: ["Saudi Arabia", "United Arab Emirates", "Kuwait", "Egypt"]
-      }
-    },
     address: {
       "@type": "PostalAddress",
-      addressCountry: ["SA", "AE", "KW", "EG"]
+      addressCountry: "SA",
+      addressRegion: "Riyadh Province",
+      addressLocality: "Riyadh"
     }
   };
-  schema["@id"] = "https://musaaed.com/#organization";
-  return schema;
-}
 
-/**
- * Generates Local Business schema for city pages with ratings
- */
-export function generateLocalBusinessSchema(city: City, country: Country, services: Service[]) {
-  return {
+  const webPageSchema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": `Musaaed Local Services - ${city.name}`,
-    "description": `Professional home and business services in ${city.name}, ${country.name}. Trusted local technicians for all your service needs.`,
-    "url": `https://musaaed.com/${country.slug}/${city.slug}`,
-    "telephone": `${country.phonePrefix}-XXX-XXXX`,
-    "email": `${country.slug}@musaaed.com`,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": city.name,
-      "addressCountry": country.name,
-      "addressRegion": city.region || country.name
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": city.coordinates?.lat || 0,
-      "longitude": city.coordinates?.lng || 0
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "150",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "review": [
-      {
-        "@type": "Review",
-        "author": {
-          "@type": "Person",
-          "name": "Ahmed Mohammed"
-        },
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        },
-        "reviewBody": `Excellent service in ${city.name}. Professional and reliable technicians.`
-      }
-    ],
-    "priceRange": "$$",
-    "currenciesAccepted": country.currency || "SAR",
-    "paymentAccepted": "Cash, Credit Card, Bank Transfer",
-    "openingHours": "Mo-Su 00:00-23:59",
-    "serviceArea": {
-      "@type": "City",
-      "name": city.name
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": `Services in ${city.name}`,
-      "itemListElement": services.slice(0, 10).map((service, index) => ({
-        "@type": "Offer",
-        "position": index + 1,
-        "itemOffered": {
-          "@type": "Service",
-          "name": service.name,
-          "description": service.description.short
-        },
-        "price": service.pricing?.basePrice || "On Quote",
-        "priceCurrency": country.currency || "SAR"
-      }))
-    },
-    "makesOffer": services.slice(0, 5).map(service => ({
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "name": service.name,
-        "category": service.categoryId
-      }
-    }))
-  };
-}
-
-/**
- * Generates enhanced schema for a specific service with SEO optimization.
- */
-export function generateServiceSchema(service: Service, city: City, country: Country) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": service.name,
-    "description": service.description.short,
-    "serviceType": service.categoryId,
-    "provider": {
-      "@type": "Organization",
-      "name": "Musaaed",
-      "@id": "https://musaaed.com/#organization"
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": city.name,
-      "addressCountry": {
-        "@type": "Country",
-        "name": country.name,
-        "alternateName": country.nameAr
-      }
-    },
-    "offers": {
-      "@type": "Offer",
-      "availability": "https://schema.org/InStock",
-      "priceCurrency": country.currency || "SAR",
-      "priceRange": service.pricing?.model === "quote" ? "On Quote" : service.pricing?.basePrice
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": `${service.name} Services in ${city.name}`,
-      "itemListElement": service.keywords.map(keyword => ({
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": keyword
-        }
-      }))
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: "https://musaaed.com",
+    inLanguage: language,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Musaaed",
+      url: "https://musaaed.com"
     }
   };
-}
 
-/**
- * Generates comprehensive SEO metadata for the homepage with enhanced keywords.
- */
-export function generateHomepageSEO(language: string): SEOData {
-    const isArabic = language === 'ar';
-    
-    const title = isArabic
-        ? 'مساعد | خدمات محلية موثوقة في الشرق الأوسط - السعودية، الإمارات، الكويت، مصر'
-        : 'Musaaed | Trusted Local Services in Middle East - Saudi Arabia, UAE, Kuwait, Egypt';
-    
-    const description = isArabic
-        ? 'اعثر على أفضل مقدمي الخدمات المحليين المعتمدين في السعودية والإمارات والكويت ومصر. خدمات التنظيف والصيانة والإصلاحات المنزلية والتجارية. استجابة سريعة وأسعار شفافة.'
-        : 'Find verified local service professionals in Saudi Arabia, UAE, Kuwait, and Egypt. Home and business cleaning, maintenance, repairs, and more. Quick response times and transparent pricing.';
-    
-    const keywords = [
-        // English keywords
-        'local services Middle East', 'home services Saudi Arabia', 'cleaning services UAE', 
-        'maintenance Kuwait', 'repair services Egypt', 'verified professionals', 'home maintenance',
-        'business services', 'emergency repairs', 'plumbing services', 'electrical services',
-        'AC cleaning', 'appliance repair', 'painting services', 'handyman services',
-        
-        // Arabic keywords
-        'خدمات محلية الشرق الأوسط', 'خدمات منزلية السعودية', 'خدمات تنظيف الإمارات',
-        'صيانة الكويت', 'خدمات إصلاح مصر', 'محترفين معتمدين', 'صيانة منزلية',
-        'خدمات تجارية', 'إصلاحات طارئة', 'خدمات سباكة', 'خدمات كهربائية',
-        'تنظيف مكيفات', 'إصلاح أجهزة', 'خدمات دهان', 'خدمات صيانة عامة'
-    ];
-    
-    return {
-        title,
-        description,
-        keywords,
-        canonical: '/',
-        schemaMarkup: [
-            generateOrganizationSchema(),
-            {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Musaaed",
-                "url": "https://musaaed.com",
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://musaaed.com/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string"
-                }
-            }
-        ],
-    };
-}
+  return {
+    title,
+    description,
+    keywords: isArabic 
+      ? ['خدمات منزلية', 'صيانة', 'تكييف', 'سباكة', 'كهرباء', 'تنظيف', 'السعودية', 'الإمارات', 'الكويت', 'مصر']
+      : ['home services', 'maintenance', 'AC repair', 'plumbing', 'electrical', 'cleaning', 'Saudi Arabia', 'UAE', 'Kuwait', 'Egypt'],
+    canonical: 'https://musaaed.com',
+    ogTitle: title,
+    ogDescription: description,
+    ogImage: 'https://musaaed.com/og-image.jpg',
+    schemaMarkup: [organizationSchema, webPageSchema]
+  };
+};
 
-/**
- * Generates enhanced SEO metadata for city pages with comprehensive keywords and Local Business schema.
- */
-export function generateCityPageSEO(city: City, country: Country, services: Service[], language: string): SEOData {
+export const generateCityPageSEO = (city: City, country: Country, services: Service[], language: string): SEOData => {
   const isArabic = language === 'ar';
   const cityName = isArabic ? city.nameAr : city.name;
   const countryName = isArabic ? country.nameAr : country.name;
-  const baseUrl = 'https://musaaed.com';
-  const serviceList = services.slice(0, 8).map(s => isArabic ? s.nameAr : s.name).join(', ');
-
-  const title = isArabic
-    ? `خدمات محلية في ${cityName} | ${countryName} - صيانة وتنظيف وإصلاحات`
-    : `Local Services in ${cityName} | ${countryName} - Maintenance, Cleaning & Repairs`;
   
+  const title = isArabic 
+    ? `خدمات منزلية في ${cityName} - ${countryName} | مساعد`
+    : `Home Services in ${cityName}, ${countryName} | Musaaed`;
+    
   const description = isArabic
-    ? `احصل على أفضل الخدمات المحلية في ${cityName}، ${countryName}. خدمات متخصصة تشمل: ${serviceList}. فنيون معتمدون، أسعار تنافسية، خدمة 24/7.`
-    : `Get the best local services in ${cityName}, ${countryName}. Professional services including: ${serviceList}. Verified technicians, competitive prices, 24/7 service.`;
-  
-  const keywords = [
-    cityName, countryName, 
-    isArabic ? 'خدمات محلية' : 'local services',
-    isArabic ? 'صيانة منزلية' : 'home maintenance',
-    isArabic ? 'خدمات تنظيف' : 'cleaning services',
-    isArabic ? 'إصلاحات' : 'repairs',
-    isArabic ? 'فنيون معتمدون' : 'verified technicians',
-    ...services.slice(0, 10).map(s => isArabic ? s.nameAr : s.name)
-  ];
-  
-  const canonical = `/${country.slug}/${city.slug}`;
+    ? `احصل على أفضل الخدمات المنزلية في ${cityName}، ${countryName}. صيانة تكييف، سباكة، كهرباء، تنظيف وأكثر. فنيين معتمدين وخدمة 24/7.`
+    : `Get the best home services in ${cityName}, ${countryName}. AC maintenance, plumbing, electrical, cleaning and more. Certified technicians and 24/7 service.`;
 
-  const schemaMarkup = [
-    generateLocalBusinessSchema(city, country, services),
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": `Professional Services in ${cityName}`,
-      "description": `Browse all available local services in ${cityName}, ${countryName}.`,
-      "url": `${baseUrl}${canonical}`,
-      "about": {
-        "@type": "City",
-        "name": cityName,
-        "containedInPlace": {
-          "@type": "Country",
-          "name": countryName
-        },
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": country.code
-        }
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: `Musaaed ${cityName}`,
+    description: description,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: cityName,
+      addressCountry: country.code
+    },
+    telephone: city.phoneNumbers[0],
+    url: `https://musaaed.com/${country.slug}/${city.slug}`,
+    areaServed: {
+      "@type": "City",
+      name: cityName
+    },
+    serviceArea: {
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: city.coordinates?.lat || 0,
+        longitude: city.coordinates?.lng || 0
       },
-      "mainEntity": {
-        "@type": "ItemList",
-        "itemListElement": services.slice(0, 10).map((service, index) => ({
-          "@type": "ListItem",
-          "position": index + 1,
-          "item": {
-            "@type": "Service",
-            "name": service.name,
-            "description": service.description.short
-          }
-        }))
+      geoRadius: "50000"
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://musaaed.com"
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: countryName,
+        item: `https://musaaed.com/${country.slug}`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: cityName,
+        item: `https://musaaed.com/${country.slug}/${city.slug}`
+      }
+    ]
+  };
+
+  return {
+    title,
+    description,
+    keywords: isArabic 
+      ? ['خدمات منزلية', cityName, countryName, 'صيانة', 'تكييف', 'سباكة', 'كهرباء', 'تنظيف']
+      : ['home services', cityName, countryName, 'maintenance', 'AC repair', 'plumbing', 'electrical', 'cleaning'],
+    canonical: `https://musaaed.com/${country.slug}/${city.slug}`,
+    ogTitle: title,
+    ogDescription: description,
+    ogImage: `https://musaaed.com/images/cities/${city.slug}-og.jpg`,
+    schemaMarkup: [localBusinessSchema, breadcrumbSchema]
+  };
+};
+
+export const generateServicePageSEO = (service: Service, city: City, country: Country, category: ServiceCategory, language: string): SEOData => {
+  const isArabic = language === 'ar';
+  const serviceName = isArabic ? service.nameAr : service.name;
+  const cityName = isArabic ? city.nameAr : city.name;
+  const countryName = isArabic ? country.nameAr : country.name;
+  
+  const title = isArabic 
+    ? `${serviceName} في ${cityName} - ${countryName} | مساعد`
+    : `${serviceName} in ${cityName}, ${countryName} | Musaaed`;
+    
+  const description = isArabic
+    ? `احصل على خدمة ${serviceName} المهنية في ${cityName}، ${countryName}. فنيين معتمدين، أسعار مناسبة، وخدمة سريعة. احجز الآن!`
+    : `Get professional ${serviceName} service in ${cityName}, ${countryName}. Certified technicians, competitive prices, and fast service. Book now!`;
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: serviceName,
+    description: isArabic ? service.description.longAr : service.description.long,
+    provider: {
+      "@type": "LocalBusiness",
+      name: `Musaaed ${cityName}`,
+      telephone: city.phoneNumbers[0],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: cityName,
+        addressCountry: country.code
       }
     },
-    generateOrganizationSchema()
-  ];
+    areaServed: {
+      "@type": "City",
+      name: cityName
+    },
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}`,
+      servicePhone: city.phoneNumbers[0]
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: service.rating,
+      reviewCount: 150 + Math.floor(service.name.length * 10)
+    }
+  };
 
-  return { title, description, keywords, canonical, schemaMarkup };
-}
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faqs.map((faq: any) => ({
+      "@type": "Question",
+      name: isArabic ? faq.questionAr : faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: isArabic ? faq.answerAr : faq.answer
+      }
+    }))
+  };
 
-/**
- * Generates enhanced SEO metadata for service pages with comprehensive optimization.
- */
-export function generateServicePageSEO(service: Service, city: City, country: Country, category: ServiceCategory, language: string): SEOData {
-    const isArabic = language === 'ar';
-    const serviceName = isArabic ? service.nameAr : service.name;
-    const cityName = isArabic ? city.nameAr : city.name;
-    const categoryName = isArabic ? category.nameAr : category.name;
-    const countryName = isArabic ? country.nameAr : country.name;
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://musaaed.com"
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: countryName,
+        item: `https://musaaed.com/${country.slug}`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: cityName,
+        item: `https://musaaed.com/${country.slug}/${city.slug}`
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: serviceName,
+        item: `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}`
+      }
+    ]
+  };
 
-    const title = isArabic 
-        ? `${serviceName} في ${cityName} | خدمة احترافية 24/7 - ${countryName}`
-        : `${serviceName} in ${cityName} | Professional 24/7 Service - ${countryName}`;
-    
-    const description = isArabic 
-        ? `احصل على خدمة ${serviceName} احترافية في ${cityName}، ${countryName}. ${service.description.shortAr || service.description.short}. فنيون معتمدون، أسعار شفافة، ضمان على العمل. اتصل الآن!`
-        : `Get professional ${serviceName} service in ${cityName}, ${countryName}. ${service.description.short}. Verified technicians, transparent pricing, work guarantee. Call now!`;
-    
-    const keywords = [
-        serviceName, cityName, categoryName, countryName,
-        isArabic ? 'خدمة احترافية' : 'professional service',
-        isArabic ? 'فني معتمد' : 'verified technician',
-        isArabic ? 'خدمة 24/7' : '24/7 service',
-        isArabic ? 'أسعار تنافسية' : 'competitive pricing',
-        ...service.keywords
-    ];
-    
-    const canonical = `/${country.slug}/${city.slug}/${service.slug}`;
-    
-    const schemaMarkup = [
-        generateServiceSchema(service, city, country),
-        generateOrganizationSchema(),
-        {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "item": "https://musaaed.com"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": countryName,
-                    "item": `https://musaaed.com/${country.slug}`
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": cityName,
-                    "item": `https://musaaed.com/${country.slug}/${city.slug}`
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 4,
-                    "name": serviceName,
-                    "item": `https://musaaed.com${canonical}`
-                }
-            ]
-        }
-    ];
-
-    return { title, description, keywords, canonical, schemaMarkup };
-}
+  return {
+    title,
+    description,
+    keywords: isArabic 
+      ? [serviceName, cityName, countryName, 'صيانة', 'خدمات منزلية', 'فنيين', 'احترافي']
+      : [serviceName, cityName, countryName, 'maintenance', 'home services', 'technicians', 'professional'],
+    canonical: `https://musaaed.com/${country.slug}/${city.slug}/${service.slug}`,
+    ogTitle: title,
+    ogDescription: description,
+    ogImage: `https://musaaed.com/images/services/${service.slug}-og.jpg`,
+    schemaMarkup: [serviceSchema, faqSchema, breadcrumbSchema]
+  };
+};

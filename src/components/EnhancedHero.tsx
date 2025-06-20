@@ -15,7 +15,7 @@ export default function EnhancedHero() {
   ];
 
   return (
-    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
         <div className="absolute inset-0 bg-black/20"></div>
